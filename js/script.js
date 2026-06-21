@@ -69,7 +69,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'sold',
-    images: ['images/could_you_move_the_same_way.jpeg']
+    images: ['images/if_you_could_move_the_same_way.png']
   },
   {
     id: 'can-you-decide',
