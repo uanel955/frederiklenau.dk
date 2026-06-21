@@ -33,22 +33,27 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  color: #000;
+  font-size: 1.3rem;
+  color: #bbb;
   text-decoration: none;
-  opacity: 0.35;
+  opacity: 0.6;
   transition: opacity 0.2s ease;
   line-height: 1;
 }
 .back-to-top:hover {
   opacity: 1;
+  color: #000;
 }
 
 /* ── Page wrapper ──────────────────────────────────────────── */
 .page {
-  max-width: 38rem;
+  max-width: 30rem;
   margin: 0 auto;
   padding: 4rem 2rem 3rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* ── Sections ──────────────────────────────────────────────── */
@@ -65,19 +70,20 @@ a {
 }
 
 .artist-name {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 1.2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
   color: #000;
   text-align: center;
+  line-height: 1.2;
 }
 
 .pieces-header {
   margin-bottom: 1.2rem;
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -86,54 +92,60 @@ a {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 0.65rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
-  color: #888;
+  letter-spacing: 0.03em;
+  color: #666;
   border: 1px solid #ddd;
-  border-radius: 3px;
-  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
   line-height: 1.4;
   text-transform: lowercase;
 }
 
 .pieces-desc {
-  font-size: 0.65rem;
-  color: #888;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.7rem;
   font-weight: 400;
+  color: #444;
 }
 
+/* ── Piece list ────────────────────────────────────────────── */
 .pieces-list {
   list-style: none;
-  margin-bottom: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .pieces-list li {
-  margin-bottom: 0.15rem;
-  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.85rem;
   line-height: 1.6;
 }
 
 .pieces-list a {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
   color: #0000EE;
   text-decoration: underline;
-  font-weight: 700;
-  font-style: italic;
 }
 .pieces-list a:hover {
   opacity: 0.7;
 }
 
 .status-tag {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 400;
   font-style: normal;
   color: #000;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* ── Contact ───────────────────────────────────────────────── */
 .contact-row {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.7rem;
+  font-weight: 400;
   color: #000;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 .contact-row a {
   color: #0000EE;
@@ -147,7 +159,12 @@ a {
   font-size: 0.7rem;
 }
 .social-row a {
-  color: #0000EE;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  color: #6688cc;
+  text-decoration: none;
+}
+.social-row a:hover {
   text-decoration: underline;
 }
 
@@ -157,18 +174,20 @@ a {
 }
 
 .piece-title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 700;
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   margin-bottom: 0.15rem;
   color: #000;
+  line-height: 1.3;
 }
 
 .piece-meta {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 0.65rem;
-  color: #888;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.6rem;
   font-weight: 400;
+  color: #888;
   margin-bottom: 0.8rem;
 }
 
@@ -185,25 +204,19 @@ a {
   display: block;
 }
 
-.piece-image-placeholder {
-  width: 100%;
-  height: auto;
-  display: block;
-  max-height: 28rem;
-  object-fit: contain;
-}
-
 /* ── Piece Navigation ──────────────────────────────────────── */
 .piece-nav {
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  color: #999;
 }
 
 .piece-nav a {
-  color: #888;
+  color: #999;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
@@ -213,14 +226,14 @@ a {
 }
 
 .piece-nav .nav-front {
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .piece-nav .nav-inquire {
   margin-left: auto;
-  color: #888;
+  color: #999;
   text-decoration: none;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 .piece-nav .nav-inquire:hover {
   color: #000;
@@ -252,13 +265,13 @@ img.broken {
     font-size: 14pt;
   }
   .page {
-    padding: 2.5rem 1.25rem 2rem;
+    padding: 2.5rem 1.5rem 2rem;
   }
   .artist-name {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
   .pieces-list li {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .piece-title {
     font-size: 1rem;
@@ -274,9 +287,9 @@ img.broken {
     font-size: 12pt;
   }
   .page {
-    padding: 2rem 1rem 1.5rem;
+    padding: 2rem 1.25rem 1.5rem;
   }
   .pieces-list li {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 }
