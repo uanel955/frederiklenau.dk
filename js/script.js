@@ -33,7 +33,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'available',
-    images: ['images/is_it_that_season_of_the_year.jpg']
+    images: ['images/is_it_that_season_of_the_year.png']
   },
   {
     id: 'is-it-normal-to-interrupt-so-much',
