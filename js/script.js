@@ -42,7 +42,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'available',
-    images: ['images/differences_interupt.jpg']
+    images: ['images/is_it_normal_to_interrupt_so_much.png']
   },
   {
     id: 'sitting-by',
@@ -78,7 +78,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'sold',
-    images: ['images/can_you_decide.jpeg']
+    images: ['images/can_you_decide.png']
   },
   {
     id: 'can-you-see-through',
