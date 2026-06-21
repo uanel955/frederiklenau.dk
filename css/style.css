@@ -70,7 +70,6 @@ a {
 }
 
 .artist-name {
-  font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
@@ -89,7 +88,6 @@ a {
 
 .pieces-label {
   display: inline-block;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 0.65rem;
   font-weight: 400;
   letter-spacing: 0.03em;
@@ -102,7 +100,6 @@ a {
 }
 
 .pieces-desc {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
   color: #444;
@@ -121,7 +118,6 @@ a {
 }
 
 .pieces-list a {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 400;
   font-style: normal;
   color: #0000EE;
@@ -132,7 +128,6 @@ a {
 }
 
 .status-tag {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 400;
   font-style: normal;
   color: #000;
@@ -141,7 +136,6 @@ a {
 
 /* ── Contact ───────────────────────────────────────────────── */
 .contact-row {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
   color: #000;
@@ -159,7 +153,6 @@ a {
   font-size: 0.7rem;
 }
 .social-row a {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 400;
   color: #6688cc;
   text-decoration: none;
@@ -174,7 +167,6 @@ a {
 }
 
 .piece-title {
-  font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 700;
   font-style: italic;
   font-size: 1.15rem;
@@ -184,7 +176,6 @@ a {
 }
 
 .piece-meta {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.6rem;
   font-weight: 400;
   color: #888;
@@ -210,7 +201,6 @@ a {
   align-items: center;
   gap: 1.2rem;
   font-size: 0.6rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 400;
   color: #999;
 }
