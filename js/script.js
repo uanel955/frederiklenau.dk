@@ -159,7 +159,7 @@ function renderPiece(slug) {
 }
 
 function tealSvg() {
-  return `<svg viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto"><rect x="10" y="10" width="180" height="180" fill="#111"/></svg>`;
+  return `<svg viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto"><circle cx="100" cy="100" r="60" fill="#d4d0ca"/></svg>`;
 }
 
 function navigate() {
