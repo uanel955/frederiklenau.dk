@@ -91,103 +91,154 @@ const PIECES = [
   }
 ];
 
-const piecesIndex = {};
-PIECES.forEach((p, i) => { piecesIndex[p.id] = { ...p, index: i }; });
+let currentLightboxIndex = 0;
+let filteredPieces = [];
 
-function getSlugFromHash() {
-  const h = location.hash.replace('#', '');
-  if (!h || h === 'home') return null;
-  return h;
-}
-
-function renderHome() {
-  const list = document.getElementById('pieces-list');
-  if (!list) return;
-  list.innerHTML = PIECES.map(p => {
-    let label = `<a href="#${p.id}">${p.title}</a>`;
-    if (p.status === 'gone') label += ` <span class="status-tag">gone</span>`;
-    if (p.status === 'sold') label += ` <span class="status-tag">sold</span>`;
-    return `<li>${label}</li>`;
-  }).join('');
-}
-
-function renderPiece(slug) {
-  const container = document.getElementById('piece-container');
-  const p = piecesIndex[slug];
-  if (!p) return;
-
-  const statusText = p.status === 'gone' ? ' — gone' : p.status === 'sold' ? ' — sold' : '';
-  const hasInquire = p.status === 'available';
-  const meta = `${p.media}, ${p.dimensions}, ${p.year}${statusText}`;
-  const prevPiece = PIECES[p.index - 1] || null;
-  const nextPiece = PIECES[p.index + 1] || null;
-
-  let imageHtml;
-  if (p.images.length > 0) {
-    imageHtml = `<img class="piece-image" src="${p.images[0]}" alt="${p.title}" onerror="this.onerror=null;this.style.display='none';document.getElementById('ph-${p.id}').style.display='flex'" />`;
-    imageHtml += `<div id="ph-${p.id}" class="teal-placeholder" style="display:none">`;
-    imageHtml += tealSvg();
-    imageHtml += `</div>`;
-  } else {
-    imageHtml = `<div class="teal-placeholder">${tealSvg()}</div>`;
-  }
-
-  let navHtml = '';
-  if (prevPiece) {
-    navHtml += `<a href="#${prevPiece.id}">&larr;</a>`;
-  } else {
-    navHtml += `<span style="color:#ddd">&larr;</span>`;
-  }
-  navHtml += `<a href="#home" class="nav-front">front</a>`;
-  if (nextPiece) {
-    navHtml += `<a href="#${nextPiece.id}">&rarr;</a>`;
-  } else {
-    navHtml += `<span style="color:#ddd">&rarr;</span>`;
-  }
-  if (hasInquire) {
-    navHtml += `<a class="nav-inquire" href="mailto:frederik@lenau.dk?subject=Inquiry%3A%20${encodeURIComponent(p.title)}">inquire</a>`;
-  }
-
-  container.innerHTML = `
-    <div class="piece-title">${p.title}</div>
-    <div class="piece-meta">${meta}</div>
-    <div class="piece-image-wrap" id="iw-${p.id}">
-      ${imageHtml}
-    </div>
-    <div class="piece-nav">${navHtml}</div>
-  `;
-}
-
-function tealSvg() {
-  return `<svg viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:0 auto"><circle cx="100" cy="100" r="60" fill="#d4d0ca"/></svg>`;
+function getPageFromHash() {
+  const hash = location.hash.replace('#', '');
+  if (!hash || hash === 'home') return 'home';
+  if (hash === 'work') return 'work';
+  if (hash === 'about') return 'about';
+  if (hash === 'contact') return 'contact';
+  return 'home';
 }
 
 function navigate() {
-  const slug = getSlugFromHash();
+  const page = getPageFromHash();
 
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-  if (!slug) {
-    document.getElementById('home-section').classList.add('active');
-    window.scrollTo(0, 0);
-    return;
+  const target = document.getElementById(page);
+  if (target) {
+    target.classList.add('active');
   }
 
-  const piece = piecesIndex[slug];
-  if (!piece) {
-    document.getElementById('home-section').classList.add('active');
-    window.scrollTo(0, 0);
-    return;
+  const navLink = document.querySelector(`.nav-link[href="#${page}"]`);
+  if (navLink) {
+    navLink.classList.add('active');
   }
 
-  document.getElementById('piece-section').classList.add('active');
-  renderPiece(slug);
+  if (page === 'work') {
+    renderGallery();
+  }
+
   window.scrollTo(0, 0);
 }
 
+function renderGallery() {
+  const gallery = document.getElementById('gallery');
+  if (!gallery) return;
+
+  filteredPieces = PIECES;
+
+  gallery.innerHTML = filteredPieces.map((p, i) => {
+    if (p.images.length > 0) {
+      return `<div class="gallery-item" data-index="${i}">
+        <img src="${p.images[0]}" alt="${p.title}" loading="lazy"/>
+      </div>`;
+    } else {
+      return `<div class="gallery-item" data-index="${i}">
+        <div class="gallery-item-placeholder">
+          <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="60" fill="#ccc"/></svg>
+        </div>
+      </div>`;
+    }
+  }).join('');
+
+  gallery.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      openLightbox(parseInt(item.dataset.index));
+    });
+  });
+}
+
+function openLightbox(index) {
+  currentLightboxIndex = index;
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.add('active');
+  updateLightbox();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function updateLightbox() {
+  const piece = filteredPieces[currentLightboxIndex];
+  const img = document.getElementById('lightbox-img');
+  const meta = document.getElementById('lightbox-meta');
+
+  if (piece.images.length > 0) {
+    img.src = piece.images[0];
+    img.alt = piece.title;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+
+  const statusText = piece.status === 'gone' ? ' — gone' : piece.status === 'sold' ? ' — sold' : '';
+  meta.innerHTML = `
+    <div class="meta-title">${piece.title}</div>
+    ${piece.dimensions} · ${piece.media} · ${piece.year}${statusText}
+  `;
+
+  document.getElementById('lightbox-prev').style.display = currentLightboxIndex > 0 ? 'block' : 'none';
+  document.getElementById('lightbox-next').style.display = currentLightboxIndex < filteredPieces.length - 1 ? 'block' : 'none';
+}
+
+function initMobileMenu() {
+  const toggle = document.getElementById('mobile-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  toggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    toggle.classList.toggle('active');
+  });
+
+  sidebar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      toggle.classList.remove('active');
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  renderHome();
+  initMobileMenu();
   navigate();
 
   window.addEventListener('hashchange', navigate);
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-prev').addEventListener('click', () => {
+    if (currentLightboxIndex > 0) {
+      currentLightboxIndex--;
+      updateLightbox();
+    }
+  });
+  document.getElementById('lightbox-next').addEventListener('click', () => {
+    if (currentLightboxIndex < filteredPieces.length - 1) {
+      currentLightboxIndex++;
+      updateLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox.classList.contains('active')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
+      currentLightboxIndex--;
+      updateLightbox();
+    }
+    if (e.key === 'ArrowRight' && currentLightboxIndex < filteredPieces.length - 1) {
+      currentLightboxIndex++;
+      updateLightbox();
+    }
+  });
 });
