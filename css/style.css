@@ -1,0 +1,282 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18pt;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  transition: opacity 0.2s ease;
+}
+
+/* ── Back to Top ──────────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #000;
+  text-decoration: none;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+.back-to-top:hover {
+  opacity: 1;
+}
+
+/* ── Page wrapper ──────────────────────────────────────────── */
+.page {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem;
+}
+
+/* ── Sections ──────────────────────────────────────────────── */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+}
+
+/* ── Home ──────────────────────────────────────────────────── */
+.home {
+  text-align: left;
+}
+
+.artist-name {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+  color: #000;
+  text-align: center;
+}
+
+.pieces-header {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.pieces-label {
+  display: inline-block;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #888;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 0.2rem 0.5rem;
+  line-height: 1.4;
+  text-transform: lowercase;
+}
+
+.pieces-desc {
+  font-size: 0.65rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.pieces-list {
+  list-style: none;
+  margin-bottom: 1.8rem;
+}
+
+.pieces-list li {
+  margin-bottom: 0.15rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.pieces-list a {
+  color: #0000EE;
+  text-decoration: underline;
+  font-weight: 700;
+  font-style: italic;
+}
+.pieces-list a:hover {
+  opacity: 0.7;
+}
+
+.status-tag {
+  font-weight: 400;
+  font-style: normal;
+  color: #000;
+  font-size: 0.9rem;
+}
+
+/* ── Contact ───────────────────────────────────────────────── */
+.contact-row {
+  font-size: 0.7rem;
+  color: #000;
+  margin-bottom: 0.8rem;
+}
+.contact-row a {
+  color: #0000EE;
+  text-decoration: underline;
+}
+
+/* ── Social ────────────────────────────────────────────────── */
+.social-row {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 0.7rem;
+}
+.social-row a {
+  color: #0000EE;
+  text-decoration: underline;
+}
+
+/* ── Piece View ────────────────────────────────────────────── */
+.piece-view {
+  text-align: left;
+}
+
+.piece-title {
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 0.15rem;
+  color: #000;
+}
+
+.piece-meta {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 0.65rem;
+  color: #888;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+}
+
+.piece-image-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0.6rem;
+  line-height: 0;
+}
+
+.piece-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.piece-image-placeholder {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 28rem;
+  object-fit: contain;
+}
+
+/* ── Piece Navigation ──────────────────────────────────────── */
+.piece-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 0.65rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.piece-nav a {
+  color: #888;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.piece-nav a:hover {
+  opacity: 1;
+  color: #000;
+}
+
+.piece-nav .nav-front {
+  letter-spacing: 0.06em;
+}
+
+.piece-nav .nav-inquire {
+  margin-left: auto;
+  color: #888;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.piece-nav .nav-inquire:hover {
+  color: #000;
+}
+
+/* ── Teal circle placeholder ───────────────────────────────── */
+.teal-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #fff;
+}
+.teal-placeholder svg {
+  width: 40%;
+  height: auto;
+  max-width: 240px;
+}
+
+/* ── Broken image helper ───────────────────────────────────── */
+img.broken {
+  display: none;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 736px) {
+  html {
+    font-size: 14pt;
+  }
+  .page {
+    padding: 2.5rem 1.25rem 2rem;
+  }
+  .artist-name {
+    font-size: 1.6rem;
+  }
+  .pieces-list li {
+    font-size: 0.85rem;
+  }
+  .piece-title {
+    font-size: 1rem;
+  }
+  .back-to-top {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12pt;
+  }
+  .page {
+    padding: 2rem 1rem 1.5rem;
+  }
+  .pieces-list li {
+    font-size: 0.8rem;
+  }
+}
