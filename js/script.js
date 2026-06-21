@@ -1,32 +1,5 @@
 const PIECES = [
   {
-    id: 'this-place-seems-familiar-right',
-    title: 'this place seems familiar right?',
-    media: 'acryl on canvas',
-    dimensions: '00 x 00 cm',
-    year: 2026,
-    status: 'available',
-    images: []
-  },
-  {
-    id: 'a-lake-and-a-sea',
-    title: 'a lake and a sea',
-    media: 'acryl on canvas',
-    dimensions: '00 x 00 cm',
-    year: 2026,
-    status: 'available',
-    images: ['images/a_lake_and_a_sea.jpg']
-  },
-  {
-    id: 'stone-in-the-water',
-    title: 'stone in the water',
-    media: 'acryl and oil stick on canvas',
-    dimensions: '00 x 00 cm',
-    year: 2026,
-    status: 'available',
-    images: []
-  },
-  {
     id: 'is-it-that-season-of-the-year',
     title: 'is it that season of the year?',
     media: 'acryl on canvas',
@@ -45,24 +18,6 @@ const PIECES = [
     images: ['images/is_it_normal_to_interrupt_so_much.png']
   },
   {
-    id: 'sitting-by',
-    title: 'sitting by',
-    media: 'acryl and oil stick on canvas',
-    dimensions: '100 x 100 cm',
-    year: 2025,
-    status: 'available',
-    images: []
-  },
-  {
-    id: 'why-run',
-    title: 'why run',
-    media: 'acryl and oil stick on canvas',
-    dimensions: '60 x 80 cm',
-    year: 2025,
-    status: 'gone',
-    images: ['images/gone_1.jpg']
-  },
-  {
     id: 'if-you-could-move-the-same-way',
     title: 'if you could move the same way',
     media: 'acryl on canvas',
@@ -79,15 +34,6 @@ const PIECES = [
     year: 2025,
     status: 'sold',
     images: ['images/can_you_decide.png']
-  },
-  {
-    id: 'can-you-see-through',
-    title: 'can you see through?',
-    media: 'acryl on canvas',
-    dimensions: '100 x 70 cm',
-    year: 2025,
-    status: 'sold',
-    images: ['images/can_you_see_through.jpg']
   }
 ];
 
