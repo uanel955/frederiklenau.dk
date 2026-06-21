@@ -48,8 +48,7 @@ a {
 /* ── Page wrapper ──────────────────────────────────────────── */
 .page {
   max-width: 30rem;
-  margin-left: 0;
-  margin-right: auto;
+  margin: 0 auto;
   padding: 4rem 2rem 3rem;
 }
 
