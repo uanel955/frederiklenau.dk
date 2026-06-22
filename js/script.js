@@ -38,8 +38,7 @@ const PIECES = [
 ];
 
 let currentLightboxIndex = 0;
-let filteredPieces = [];
-let galleryRendered = false;
+let filteredPieces = PIECES;
 let touchStartX = 0;
 let touchEndX = 0;
 let crossfadeTimer = null;
@@ -61,9 +60,8 @@ function openPanel(page) {
   const activeLink = document.querySelector(`.nav-link[data-page="${page}"], .mobile-nav-link[data-page="${page}"]`);
   if (activeLink) activeLink.classList.add('active');
 
-  if (page === 'work' && !galleryRendered) {
-    renderGallery();
-    galleryRendered = true;
+  if (page === 'work') {
+    openLightbox(0);
   }
 }
 
@@ -73,6 +71,7 @@ function closeAllPanels() {
   document.getElementById('site-header').classList.remove('visible');
   document.getElementById('mobile-menu').classList.remove('open');
   document.getElementById('mobile-toggle').classList.remove('active');
+  document.getElementById('lightbox').classList.remove('active');
   document.body.style.overflow = '';
   activePage = null;
 }
@@ -134,40 +133,22 @@ function initNav() {
   });
 }
 
-// ── Gallery ───────────────────────────────────────────────
-function renderGallery() {
-  const gallery = document.getElementById('gallery');
-  if (!gallery) return;
-
-  filteredPieces = PIECES;
-
-  gallery.innerHTML = filteredPieces.map((p, i) => {
-    if (p.images.length > 0) {
-      return `<div class="gallery-item" data-index="${i}" style="--i: ${i}">
-        <img src="${p.images[0]}" alt="${p.title}" loading="lazy"/>
-        <div class="gallery-item-title"><span>${p.title}</span></div>
-      </div>`;
-    }
-    return '';
-  }).join('');
-
-  gallery.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-      openLightbox(parseInt(item.dataset.index));
-    });
-  });
-}
-
 // ── Lightbox ──────────────────────────────────────────────
 function openLightbox(index) {
   currentLightboxIndex = index;
   const lightbox = document.getElementById('lightbox');
   lightbox.classList.add('active');
+  document.getElementById('site-header').classList.add('visible');
+  document.body.style.overflow = 'hidden';
   updateLightbox();
 }
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
+  if (!activePage) {
+    document.getElementById('site-header').classList.remove('visible');
+    document.body.style.overflow = '';
+  }
 }
 
 function updateLightbox() {
