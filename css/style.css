@@ -333,11 +333,14 @@ a:hover {
 }
 
 /* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .site-nav { display: none; }
+  .mobile-toggle { display: block; }
+}
+
 @media (max-width: 768px) {
   .site-header { padding: 16px 20px; }
   .site-name { font-size: 0.8rem; }
-  .site-nav { display: none; }
-  .mobile-toggle { display: block; }
   .home-words { gap: 2rem; }
   .home-word { font-size: 1rem; letter-spacing: 0.14em; }
   .panel-inner { padding: 80px 24px 40px; }
