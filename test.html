@@ -9,82 +9,72 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    .test-hero {
-      width: 100%;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .test-scene {
+      width: 100vw;
       height: 100vh;
+      overflow: hidden;
+      background: #000;
       position: relative;
-      overflow: hidden;
-      background: #111;
     }
 
-    .test-hero img {
+    .test-scene img.bg {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
+      display: block;
     }
 
-    .glass-lens {
+    .glass-host {
       position: absolute;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
       pointer-events: none;
+      will-change: transform;
       z-index: 10;
-      overflow: hidden;
     }
 
-    .glass-lens .glass-refract {
-      position: absolute;
-      inset: -24px;
-      overflow: hidden;
-      filter: url(#glass-displacement);
-    }
-
-    .glass-lens .glass-refract img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .glass-lens .glass-overlay {
+    .glass-filtered {
       position: absolute;
       inset: 0;
-      border-radius: 50%;
-      pointer-events: none;
-      background:
-        radial-gradient(
-          ellipse at 30% 20%,
-          rgba(255, 255, 255, 0.35) 0%,
-          rgba(255, 255, 255, 0.08) 35%,
-          transparent 60%
-        );
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-        inset 0 0 30px rgba(255, 255, 255, 0.05),
-        0 8px 32px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background: #000;
     }
 
-    .glass-lens .glass-rim {
+    .glass-filtered .backdrop-clone {
+      position: absolute;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .glass-filtered .backdrop-clone img {
+      display: block;
+      pointer-events: none;
+    }
+
+    .glass-overlay {
       position: absolute;
       inset: 0;
-      border-radius: 50%;
       pointer-events: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
     }
+
+    .glass-drag {
+      position: absolute;
+      inset: 0;
+      cursor: grab;
+      touch-action: none;
+      z-index: 11;
+    }
+    .glass-drag:active { cursor: grabbing; }
 
     .test-label {
       position: fixed;
       bottom: 24px;
-      left: 280px;
+      left: 0;
       right: 0;
       text-align: center;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255,255,255,0.4);
       z-index: 20;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -94,213 +84,424 @@
     .test-back {
       position: fixed;
       top: 24px;
-      left: 304px;
+      left: 24px;
       z-index: 20;
       font-size: 0.78rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255,255,255,0.5);
       text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      font-family: 'Inter', system-ui, sans-serif;
     }
-    .test-back:hover {
-      color: #fff;
-      opacity: 1;
-    }
+    .test-back:hover { color: #fff; opacity: 1; }
 
-    @media (max-width: 768px) {
-      .glass-lens {
-        width: 200px;
-        height: 200px;
-      }
-      .test-label {
-        left: 0;
-      }
-      .test-back {
-        left: 20px;
-      }
+    .test-images {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+    }
+    .test-images button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-family: 'Inter', system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .test-images button:hover {
+      background: rgba(255,255,255,0.3);
     }
   </style>
 </head>
-<body style="background:#111">
+<body>
 
-  <a href="#home" class="test-back">&larr; Back</a>
+  <a href="index.html" class="test-back">&larr; Back</a>
 
-  <svg style="position:absolute;width:0;height:0">
-    <defs>
-      <filter id="glass-displacement" x="-20%" y="-20%" width="140%" height="140%"
-              color-interpolation-filters="sRGB">
-        <feImage id="glass-map" result="map" />
-        <feDisplacementMap in="SourceGraphic" in2="map"
-                           scale="30" xChannelSelector="R" yChannelSelector="G"
-                           result="displaced" />
-        <feGaussianBlur in="displaced" stdDeviation="0.5" result="blurred" />
-      </filter>
-    </defs>
-  </svg>
-
-  <div class="test-hero" id="test-hero">
-    <img src="images/a_lake_and_a_sea.jpg" alt="" id="test-bg"/>
-    <div class="glass-lens" id="glass-lens">
-      <div class="glass-refract">
-        <img src="images/a_lake_and_a_sea.jpg" alt="" id="test-refract"/>
-      </div>
-      <div class="glass-overlay"></div>
-      <div class="glass-rim"></div>
-    </div>
+  <div class="test-scene" id="scene">
+    <img class="bg" id="bg" src="images/a_lake_and_a_sea.jpg" alt=""/>
   </div>
+
+  <div class="test-images" id="img-picker"></div>
 
   <div class="test-label">Drag the glass lens</div>
 
   <script>
-    const hero = document.getElementById('test-hero');
-    const lens = document.getElementById('glass-lens');
-    const refractImg = document.getElementById('test-refract');
-    const bgImg = document.getElementById('test-bg');
-    const mapEl = document.getElementById('glass-map');
+    // ── Material defaults (from OpenGlass) ──────────────────────
+    const MATERIAL = {
+      width: 260,
+      height: 260,
+      borderRadius: 130,
+      scale: 30,
+      depth: 41,
+      curvature: 2.8,
+      splay: -1,
+      chroma: 0.06,
+      glow: 0.3,
+      edgeHighlight: 0.55,
+      specularAngle: 325,
+    };
 
-    const LENS_SIZE = 280;
-    const MARGIN = 24;
-    const MAP_SIZE = LENS_SIZE + MARGIN * 2;
+    const MARGIN = 64;
+    const BOX_W = MATERIAL.width + MARGIN * 2;
+    const BOX_H = MATERIAL.height + MARGIN * 2;
+    const BASE_SCALE = MATERIAL.scale * 2;
 
-    let lensX = (window.innerWidth - 280) / 2;
-    let lensY = (window.innerHeight - 280) / 2;
-    let dragging = false;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
+    const IMAGES = [
+      { name: 'lake', src: 'images/a_lake_and_a_sea.jpg' },
+      { name: 'season', src: 'images/is_it_that_season_of_the_year.jpg' },
+      { name: 'interrupt', src: 'images/differences_interupt.jpg' },
+      { name: 'move', src: 'images/could_you_move_the_same_way.jpeg' },
+      { name: 'decide', src: 'images/can_you_decide.jpeg' },
+      { name: 'through', src: 'images/can_you_see_through.jpg' },
+      { name: 'gone', src: 'images/gone_1.jpg' },
+      { name: 'season (new)', src: 'images/is_it_that_season_of_the_year.png' },
+      { name: 'interrupt (new)', src: 'images/is_it_normal_to_interrupt_so_much.png' },
+      { name: 'move (new)', src: 'images/if_you_could_move_the_same_way.png' },
+      { name: 'decide (new)', src: 'images/can_you_decide.png' },
+    ];
 
-    function generateDisplacementMap() {
-      const canvas = document.createElement('canvas');
-      canvas.width = MAP_SIZE;
-      canvas.height = MAP_SIZE;
-      const ctx = canvas.getContext('2d');
-      const imgData = ctx.createImageData(MAP_SIZE, MAP_SIZE);
-      const data = imgData.data;
+    let currentImage = 0;
+    const bg = document.getElementById('bg');
+    const scene = document.getElementById('scene');
 
-      const cx = MAP_SIZE / 2;
-      const cy = MAP_SIZE / 2;
-      const radius = LENS_SIZE / 2;
-      const depth = 41;
-      const curvature = 2.8;
-      const scale = 30;
+    // ── Build image picker ──────────────────────────────────────
+    const picker = document.getElementById('img-picker');
+    IMAGES.forEach((img, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = img.name;
+      btn.addEventListener('click', () => {
+        currentImage = i;
+        bg.src = img.src;
+        cloneImg.src = img.src;
+      });
+      picker.appendChild(btn);
+    });
 
-      for (let y = 0; y < MAP_SIZE; y++) {
-        for (let x = 0; x < MAP_SIZE; x++) {
-          const dx = x - cx;
-          const dy = y - cy;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+    // ── Displacement map (OpenGlass approach) ───────────────────
+    function clampByte(v) { return Math.max(0, Math.min(255, Math.round(v))); }
 
-          if (dist > radius + depth) {
-            const i = (y * MAP_SIZE + x) * 4;
-            data[i] = 128;
-            data[i + 1] = 128;
-            data[i + 2] = 0;
-            data[i + 3] = 0;
-            continue;
+    function writeMapPixel(data, rowW, x, y, r, g) {
+      const i = (y * rowW + x) * 4;
+      data[i] = r;
+      data[i + 1] = g;
+      data[i + 2] = 128;
+      data[i + 3] = 255;
+    }
+
+    function makeDisplacementMap(material, margin) {
+      const boxW = Math.round(material.width + margin * 2);
+      const boxH = Math.round(material.height + margin * 2);
+      const ss = Math.min(Math.max(Math.round(window.devicePixelRatio || 1), 1), 3);
+      const resW = boxW * ss;
+      const resH = boxH * ss;
+
+      const hi = document.createElement('canvas');
+      hi.width = resW;
+      hi.height = resH;
+      const ctx = hi.getContext('2d');
+      const image = ctx.createImageData(resW, resH);
+
+      const cx = resW / 2;
+      const cy = resH / 2;
+      const bx = (material.width / 2) * ss;
+      const by = (material.height / 2) * ss;
+      const radius = material.borderRadius * ss;
+      const depth = Math.max(material.depth, 0.001) * ss;
+      const { splay, curvature } = material;
+
+      const halfW = Math.ceil(resW / 2);
+      const halfH = Math.ceil(resH / 2);
+
+      for (let y = 0; y < halfH; y++) {
+        const my = resH - 1 - y;
+        for (let x = 0; x < halfW; x++) {
+          const mx = resW - 1 - x;
+
+          const px = Math.abs(x + 0.5 - cx);
+          const py = Math.abs(y + 0.5 - cy);
+          const qx = px - (bx - radius);
+          const qy = py - (by - radius);
+
+          let offsetX = 0, offsetY = 0;
+
+          if (qx > 0 && qy > 0) {
+            const len = Math.hypot(qx, qy);
+            const inward = radius - len;
+            if (len < radius && inward < depth) {
+              const magnitude = splay * Math.pow(1 - inward / depth, curvature);
+              const dirX = len > 0 ? qx / len : Math.SQRT1_2;
+              const dirY = len > 0 ? qy / len : Math.SQRT1_2;
+              offsetX = -dirX * magnitude;
+              offsetY = -dirY * magnitude;
+            }
+          } else {
+            const inX = bx - px;
+            const inY = by - py;
+            if (inX > 0 && inX < depth) offsetX = -splay * Math.pow(1 - inX / depth, curvature);
+            if (inY > 0 && inY < depth) offsetY = -splay * Math.pow(1 - inY / depth, curvature);
           }
 
-          const edgeDist = radius - dist;
-          const normalized = Math.max(0, Math.min(1, edgeDist / depth));
-          const curved = Math.pow(normalized, curvature);
+          const rPos = clampByte(128 + offsetX * 127);
+          const rNeg = clampByte(128 - offsetX * 127);
+          const gPos = clampByte(128 + offsetY * 127);
+          const gNeg = clampByte(128 - offsetY * 127);
 
-          const nx = dist > 0 ? dx / dist : 0;
-          const ny = dist > 0 ? dy / dist : 0;
-
-          const offsetX = -nx * curved * scale;
-          const offsetY = -ny * curved * scale;
-
-          const r = Math.round(128 + offsetX * 1.275);
-          const g = Math.round(128 + offsetY * 1.275);
-
-          const i = (y * MAP_SIZE + x) * 4;
-          data[i] = r;
-          data[i + 1] = g;
-          data[i + 2] = 0;
-          data[i + 3] = 255;
+          writeMapPixel(image.data, resW, x, y, rPos, gPos);
+          writeMapPixel(image.data, resW, mx, y, rNeg, gPos);
+          writeMapPixel(image.data, resW, x, my, rPos, gNeg);
+          writeMapPixel(image.data, resW, mx, my, rNeg, gNeg);
         }
       }
 
-      ctx.putImageData(imgData, 0, 0);
-      return canvas.toDataURL();
+      ctx.putImageData(image, 0, 0);
+      if (ss === 1) return hi.toDataURL();
+
+      const out = document.createElement('canvas');
+      out.width = boxW;
+      out.height = boxH;
+      const octx = out.getContext('2d');
+      octx.imageSmoothingEnabled = true;
+      octx.imageSmoothingQuality = 'high';
+      octx.drawImage(hi, 0, 0, boxW, boxH);
+      return out.toDataURL();
     }
 
-    function updateLens() {
-      const heroRect = hero.getBoundingClientRect();
-      lens.style.left = lensX + 'px';
-      lens.style.top = lensY + 'px';
+    // ── Build SVG filter ────────────────────────────────────────
+    let filterId = 'og-glass-' + Math.random().toString(36).slice(2);
 
-      const imgRect = bgImg.getBoundingClientRect();
-      const offsetX = lensX - imgRect.left;
-      const offsetY = lensY - imgRect.top;
+    function buildFilter() {
+      const mapUrl = makeDisplacementMap(MATERIAL, MARGIN);
+      const chroma = MATERIAL.chroma;
 
-      const scaleX = bgImg.naturalWidth / imgRect.width;
-      const scaleY = bgImg.naturalHeight / imgRect.height;
+      const existing = document.getElementById(filterId);
+      if (existing) existing.remove();
 
-      const cropX = offsetX * scaleX;
-      const cropY = offsetY * scaleY;
-      const cropW = LENS_SIZE * scaleX;
-      const cropH = LENS_SIZE * scaleY;
+      filterId = 'og-glass-' + Math.random().toString(36).slice(2);
 
-      refractImg.style.width = imgRect.width + 'px';
-      refractImg.style.height = imgRect.height + 'px';
-      refractImg.style.objectFit = 'cover';
-      refractImg.style.objectPosition = 'center';
-      refractImg.style.position = 'absolute';
-      refractImg.style.left = -offsetX + 'px';
-      refractImg.style.top = -offsetY + 'px';
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '0');
+      svg.setAttribute('height', '0');
+      svg.style.position = 'absolute';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+      filter.setAttribute('id', filterId);
+      filter.setAttribute('x', '0');
+      filter.setAttribute('y', '0');
+      filter.setAttribute('width', BOX_W);
+      filter.setAttribute('height', BOX_H);
+      filter.setAttribute('filterUnits', 'userSpaceOnUse');
+      filter.setAttribute('primitiveUnits', 'userSpaceOnUse');
+      filter.setAttribute('color-interpolation-filters', 'sRGB');
+
+      const feImage = document.createElementNS('http://www.w3.org/2000/svg', 'feImage');
+      feImage.setAttribute('href', mapUrl);
+      feImage.setAttribute('x', '0');
+      feImage.setAttribute('y', '0');
+      feImage.setAttribute('width', BOX_W);
+      feImage.setAttribute('height', BOX_H);
+      feImage.setAttribute('preserveAspectRatio', 'none');
+      feImage.setAttribute('result', 'map');
+      filter.appendChild(feImage);
+
+      if (chroma > 0) {
+        // R channel — wider displacement
+        const dR = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
+        dR.setAttribute('in', 'SourceGraphic');
+        dR.setAttribute('in2', 'map');
+        dR.setAttribute('scale', BASE_SCALE * (1 + chroma));
+        dR.setAttribute('xChannelSelector', 'R');
+        dR.setAttribute('yChannelSelector', 'G');
+        dR.setAttribute('result', 'dR');
+        filter.appendChild(dR);
+
+        const cR = document.createElementNS('http://www.w3.org/2000/svg', 'feColorMatrix');
+        cR.setAttribute('in', 'dR');
+        cR.setAttribute('type', 'matrix');
+        cR.setAttribute('values', '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0');
+        cR.setAttribute('result', 'cR');
+        filter.appendChild(cR);
+
+        // G channel — base displacement
+        const dG = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
+        dG.setAttribute('in', 'SourceGraphic');
+        dG.setAttribute('in2', 'map');
+        dG.setAttribute('scale', BASE_SCALE);
+        dG.setAttribute('xChannelSelector', 'R');
+        dG.setAttribute('yChannelSelector', 'G');
+        dG.setAttribute('result', 'dG');
+        filter.appendChild(dG);
+
+        const cG = document.createElementNS('http://www.w3.org/2000/svg', 'feColorMatrix');
+        cG.setAttribute('in', 'dG');
+        cG.setAttribute('type', 'matrix');
+        cG.setAttribute('values', '0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0');
+        cG.setAttribute('result', 'cG');
+        filter.appendChild(cG);
+
+        // B channel — narrower displacement
+        const dB = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
+        dB.setAttribute('in', 'SourceGraphic');
+        dB.setAttribute('in2', 'map');
+        dB.setAttribute('scale', BASE_SCALE * (1 - chroma));
+        dB.setAttribute('xChannelSelector', 'R');
+        dB.setAttribute('yChannelSelector', 'G');
+        dB.setAttribute('result', 'dB');
+        filter.appendChild(dB);
+
+        const cB = document.createElementNS('http://www.w3.org/2000/svg', 'feColorMatrix');
+        cB.setAttribute('in', 'dB');
+        cB.setAttribute('type', 'matrix');
+        cB.setAttribute('values', '0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0');
+        cB.setAttribute('result', 'cB');
+        filter.appendChild(cB);
+
+        // Screen blend R+G+B
+        const blendRG = document.createElementNS('http://www.w3.org/2000/svg', 'feBlend');
+        blendRG.setAttribute('in', 'cR');
+        blendRG.setAttribute('in2', 'cG');
+        blendRG.setAttribute('mode', 'screen');
+        blendRG.setAttribute('result', 'cRG');
+        filter.appendChild(blendRG);
+
+        const blendRGB = document.createElementNS('http://www.w3.org/2000/svg', 'feBlend');
+        blendRGB.setAttribute('in', 'cRG');
+        blendRGB.setAttribute('in2', 'cB');
+        blendRGB.setAttribute('mode', 'screen');
+        filter.appendChild(blendRGB);
+      } else {
+        const dm = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
+        dm.setAttribute('in', 'SourceGraphic');
+        dm.setAttribute('in2', 'map');
+        dm.setAttribute('scale', BASE_SCALE);
+        dm.setAttribute('xChannelSelector', 'R');
+        dm.setAttribute('yChannelSelector', 'G');
+        filter.appendChild(dm);
+      }
+
+      defs.appendChild(filter);
+      svg.appendChild(defs);
+      document.body.appendChild(svg);
     }
 
-    function init() {
-      const mapUrl = generateDisplacementMap();
-      mapEl.setAttribute('href', mapUrl);
-      mapEl.setAttribute('width', MAP_SIZE);
-      mapEl.setAttribute('height', MAP_SIZE);
+    // ── Glass overlay style (from OpenGlass) ────────────────────
+    function getOverlayStyle() {
+      const eh = MATERIAL.edgeHighlight;
+      const rad = (MATERIAL.specularAngle * Math.PI) / 180;
+      const gx = 50 + Math.sin(rad) * 30;
+      const gy = 50 - Math.cos(rad) * 30;
+      const r2 = (v) => Math.round(v * 100) / 100;
 
-      lensX = (window.innerWidth - LENS_SIZE) / 2;
-      lensY = (window.innerHeight - LENS_SIZE) / 2;
-      updateLens();
+      return {
+        borderRadius: MATERIAL.borderRadius + 'px',
+        background: [
+          `radial-gradient(100% 100% at 50% 50%, rgba(255,255,255,0) 70%, rgba(255,255,255,${r2(eh)}) 85%, rgba(255,255,255,${r2(eh * 0.15)}) 93%, rgba(255,255,255,0) 100%)`,
+          `radial-gradient(120% 120% at ${r2(gx)}% ${r2(gy)}%, rgba(255,255,255,${r2(MATERIAL.glow)}), rgba(255,255,255,0) 40%)`,
+        ].join(', '),
+        boxShadow: [
+          `inset 0 1px 1px rgba(255,255,255,${r2(eh)})`,
+          `inset 0 0 0 1px rgba(255,255,255,${r2(eh * 0.4)})`,
+          'inset 0 -10px 20px rgba(0,0,0,0.06)',
+          '0 10px 30px rgba(0,0,0,0.18)',
+        ].join(', '),
+      };
     }
 
-    function onPointerDown(e) {
+    // ── Glass host element ──────────────────────────────────────
+    const host = document.createElement('div');
+    host.className = 'glass-host';
+    host.style.width = BOX_W + 'px';
+    host.style.height = BOX_H + 'px';
+
+    const filtered = document.createElement('div');
+    filtered.className = 'glass-filtered';
+    filtered.style.filter = `url(#${filterId})`;
+    host.appendChild(filtered);
+
+    const cloneHost = document.createElement('div');
+    cloneHost.className = 'backdrop-clone';
+    filtered.appendChild(cloneHost);
+
+    const cloneImg = document.createElement('img');
+    cloneImg.src = IMAGES[currentImage].src;
+    cloneImg.alt = '';
+    cloneHost.appendChild(cloneImg);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'glass-overlay';
+    Object.assign(overlay.style, getOverlayStyle());
+    host.appendChild(overlay);
+
+    const drag = document.createElement('div');
+    drag.className = 'glass-drag';
+    host.appendChild(drag);
+
+    scene.appendChild(host);
+
+    // ── Positioning ─────────────────────────────────────────────
+    let lensX = (window.innerWidth - MATERIAL.width) / 2;
+    let lensY = (window.innerHeight - MATERIAL.height) / 2;
+    let dragging = false;
+    let startX, startY, originX, originY;
+
+    function updatePosition() {
+      host.style.transform = `translate3d(${lensX - MARGIN}px, ${lensY - MARGIN}px, 0)`;
+
+      const imgRect = bg.getBoundingClientRect();
+      cloneHost.style.left = -(lensX - MARGIN) + 'px';
+      cloneHost.style.top = -(lensY - MARGIN) + 'px';
+      cloneHost.style.width = imgRect.width + 'px';
+      cloneHost.style.height = imgRect.height + 'px';
+
+      cloneImg.style.width = imgRect.width + 'px';
+      cloneImg.style.height = imgRect.height + 'px';
+      cloneImg.style.objectFit = 'cover';
+      cloneImg.style.objectPosition = 'center';
+    }
+
+    // ── Drag ────────────────────────────────────────────────────
+    drag.addEventListener('pointerdown', (e) => {
       dragging = true;
-      const rect = lens.getBoundingClientRect();
-      dragOffsetX = e.clientX - rect.left;
-      dragOffsetY = e.clientY - rect.top;
-      lens.style.cursor = 'grabbing';
+      startX = e.clientX;
+      startY = e.clientY;
+      originX = lensX;
+      originY = lensY;
       e.preventDefault();
-    }
+    });
 
-    function onPointerMove(e) {
+    window.addEventListener('pointermove', (e) => {
       if (!dragging) return;
-      lensX = e.clientX - dragOffsetX;
-      lensY = e.clientY - dragOffsetY;
+      lensX = originX + (e.clientX - startX);
+      lensY = originY + (e.clientY - startY);
+      lensX = Math.max(-MARGIN, Math.min(window.innerWidth - MATERIAL.width + MARGIN, lensX));
+      lensY = Math.max(-MARGIN, Math.min(window.innerHeight - MATERIAL.height + MARGIN, lensY));
+      updatePosition();
+    });
 
-      lensX = Math.max(-MARGIN, Math.min(window.innerWidth - LENS_SIZE + MARGIN, lensX));
-      lensY = Math.max(-MARGIN, Math.min(window.innerHeight - LENS_SIZE + MARGIN, lensY));
+    window.addEventListener('pointerup', () => { dragging = false; });
 
-      updateLens();
-    }
-
-    function onPointerUp() {
-      dragging = false;
-      lens.style.cursor = 'grab';
-    }
-
-    lens.style.cursor = 'grab';
-    lens.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('pointermove', onPointerMove);
-    document.addEventListener('pointerup', onPointerUp);
-
-    window.addEventListener('resize', updateLens);
-
-    bgImg.onload = () => {
-      init();
-      document.getElementById('test-refract').src = bgImg.src;
+    // ── Init ────────────────────────────────────────────────────
+    bg.onload = () => {
+      buildFilter();
+      filtered.style.filter = `url(#${filterId})`;
+      cloneImg.src = bg.src;
+      updatePosition();
     };
 
-    if (bgImg.complete) {
-      init();
-      document.getElementById('test-refract').src = bgImg.src;
+    if (bg.complete) {
+      buildFilter();
+      filtered.style.filter = `url(#${filterId})`;
+      cloneImg.src = bg.src;
+      updatePosition();
     }
+
+    window.addEventListener('resize', updatePosition);
   </script>
 </body>
 </html>
