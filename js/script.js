@@ -42,6 +42,7 @@ let filteredPieces = [];
 let galleryRendered = false;
 let touchStartX = 0;
 let touchEndX = 0;
+let crossfadeTimer = null;
 
 // ── Panel navigation ──────────────────────────────────────
 function openPanel(page) {
@@ -94,8 +95,9 @@ function renderGallery() {
 
   gallery.innerHTML = filteredPieces.map((p, i) => {
     if (p.images.length > 0) {
-      return `<div class="gallery-item" data-index="${i}">
+      return `<div class="gallery-item" data-index="${i}" style="--i: ${i}">
         <img src="${p.images[0]}" alt="${p.title}" loading="lazy"/>
+        <div class="gallery-item-title"><span>${p.title}</span></div>
       </div>`;
     }
     return '';
@@ -123,32 +125,44 @@ function closeLightbox() {
 function updateLightbox() {
   const piece = filteredPieces[currentLightboxIndex];
   const img = document.getElementById('lightbox-img');
+  const imgBack = document.getElementById('lightbox-img-back');
   const meta = document.getElementById('lightbox-meta');
+  const counter = document.getElementById('lightbox-counter');
   const spinner = document.getElementById('lightbox-spinner');
 
-  img.classList.add('loading');
+  if (crossfadeTimer) {
+    clearTimeout(crossfadeTimer);
+    crossfadeTimer = null;
+  }
+
   spinner.classList.add('active');
 
   if (piece.images.length > 0) {
     const newImg = new Image();
     newImg.onload = () => {
-      img.src = piece.images[0];
-      img.alt = piece.title;
-      img.style.display = 'block';
-      img.classList.remove('loading');
+      imgBack.src = piece.images[0];
+      imgBack.alt = piece.title;
+      imgBack.style.opacity = '1';
+      img.style.opacity = '0';
       spinner.classList.remove('active');
+
+      crossfadeTimer = setTimeout(() => {
+        img.src = imgBack.src;
+        img.alt = imgBack.alt;
+        img.style.opacity = '1';
+        imgBack.style.opacity = '0';
+        crossfadeTimer = null;
+      }, 500);
     };
     newImg.onerror = () => {
-      img.style.display = 'none';
       spinner.classList.remove('active');
     };
     newImg.src = piece.images[0];
-  } else {
-    img.style.display = 'none';
-    spinner.classList.remove('active');
   }
 
-  const statusText = piece.status === 'gone' ? ' — gone' : piece.status === 'sold' ? ' — sold' : '';
+  counter.textContent = `${currentLightboxIndex + 1} / ${filteredPieces.length}`;
+
+  const statusText = piece.status === 'sold' ? ' — sold' : '';
   meta.innerHTML = `
     <div class="meta-title">${piece.title}</div>
     ${piece.dimensions} · ${piece.media} · ${piece.year}${statusText}
