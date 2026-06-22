@@ -290,7 +290,23 @@ function initMobileMenu() {
   });
 }
 
+function initLoader() {
+  const loader = document.getElementById('loader');
+  const video = document.getElementById('loader-video');
+  if (!loader || !video) return;
+
+  function hideLoader() {
+    loader.classList.add('done');
+    setTimeout(() => { loader.style.display = 'none'; }, 600);
+  }
+
+  video.addEventListener('ended', hideLoader);
+  video.addEventListener('error', hideLoader);
+  setTimeout(hideLoader, 8000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initLoader();
   initHeroCarousel();
   initMobileMenu();
   initLightbox();
