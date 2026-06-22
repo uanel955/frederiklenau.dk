@@ -54,6 +54,7 @@ function openPanel(page) {
 
   activePage = page;
   panel.classList.add('active');
+  document.getElementById('site-header').classList.add('visible');
   document.body.style.overflow = 'hidden';
 
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -69,11 +70,18 @@ function openPanel(page) {
 function closeAllPanels() {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('site-header').classList.remove('visible');
   document.body.style.overflow = '';
   activePage = null;
 }
 
 function initNav() {
+  document.querySelectorAll('.home-word').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openPanel(btn.dataset.page);
+    });
+  });
+
   document.querySelectorAll('.nav-link').forEach(btn => {
     btn.addEventListener('click', () => {
       if (activePage === btn.dataset.page) {

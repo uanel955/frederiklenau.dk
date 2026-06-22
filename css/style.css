@@ -54,6 +54,13 @@ a:hover {
   justify-content: space-between;
   padding: 24px 32px;
   background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.site-header.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .site-name {
@@ -113,7 +120,47 @@ a:hover {
   position: fixed;
   inset: 0;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--bg);
+}
+
+.home-words {
+  display: flex;
+  gap: 3.5rem;
+}
+
+.home-word {
+  background: none;
+  border: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.4s ease;
+}
+.home-word::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--text-primary);
+  transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.home-word:hover {
+  color: var(--text-muted);
+}
+.home-word:hover::after {
+  width: 100%;
+  left: 0;
 }
 
 /* ── Panels ─────────────────────────────────────────────── */
@@ -366,6 +413,8 @@ a:hover {
   .site-name { font-size: 0.8rem; }
   .site-nav { gap: 1.5rem; }
   .nav-link { font-size: 0.7rem; }
+  .home-words { gap: 2rem; }
+  .home-word { font-size: 1rem; letter-spacing: 0.14em; }
   .panel-inner { padding: 80px 24px 40px; }
   .gallery { gap: 16px; }
   .lightbox-content { max-width: 85vw; }
@@ -380,6 +429,7 @@ a:hover {
     align-items: flex-start;
   }
   .site-nav { gap: 1.2rem; }
+  .home-words { flex-direction: column; gap: 1.5rem; align-items: center; }
   .gallery { grid-template-columns: 1fr; }
 }
 

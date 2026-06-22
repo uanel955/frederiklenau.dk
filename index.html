@@ -33,8 +33,8 @@
 </head>
 <body>
 
-  <!-- ── Header ──────────────────────────────────────────── -->
-  <header class="site-header">
+  <!-- ── Header (hidden on home, shown on panels) ────────── -->
+  <header class="site-header" id="site-header">
     <a href="#" class="site-name" id="site-name">Frederik Lenau</a>
     <nav class="site-nav">
       <button class="nav-link" data-page="work">Work</button>
@@ -43,8 +43,14 @@
     </nav>
   </header>
 
-  <!-- ── Home (empty, just header) ───────────────────────── -->
-  <div class="home-screen" id="home-screen"></div>
+  <!-- ── Home (3 words centered) ─────────────────────────── -->
+  <div class="home-screen" id="home-screen">
+    <div class="home-words">
+      <button class="home-word" data-page="work">Work</button>
+      <button class="home-word" data-page="about">About</button>
+      <button class="home-word" data-page="contact">Contact</button>
+    </div>
+  </div>
 
   <!-- ── Overlay panels ──────────────────────────────────── -->
   <div class="panel" id="panel-work">
