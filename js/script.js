@@ -299,17 +299,17 @@ function initLoader() {
   function hideLoader() {
     if (hidden) return;
     hidden = true;
-    loader.classList.add('done');
-    setTimeout(() => { loader.style.display = 'none'; }, 700);
+    loader.style.opacity = '0';
+    loader.style.pointerEvents = 'none';
+    setTimeout(() => { loader.remove(); }, 700);
   }
 
   if (video) {
     video.play().catch(() => {});
-    video.addEventListener('ended', hideLoader);
   }
 
   loader.addEventListener('click', hideLoader);
-  setTimeout(hideLoader, 5000);
+  setTimeout(hideLoader, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
