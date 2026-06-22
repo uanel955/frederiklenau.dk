@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>OpenGlass Test — Frederik Lenau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .test-hero {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .test-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .glass-lens {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .glass-lens .glass-refract {
+      position: absolute;
+      inset: -24px;
+      overflow: hidden;
+      filter: url(#glass-displacement);
+    }
+
+    .glass-lens .glass-refract img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .glass-lens .glass-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 30% 20%,
+          rgba(255, 255, 255, 0.35) 0%,
+          rgba(255, 255, 255, 0.08) 35%,
+          transparent 60%
+        );
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 0 30px rgba(255, 255, 255, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-lens .glass-rim {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .test-label {
+      position: fixed;
+      bottom: 24px;
+      left: 280px;
+      right: 0;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      z-index: 20;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .test-back {
+      position: fixed;
+      top: 24px;
+      left: 304px;
+      z-index: 20;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .test-back:hover {
+      color: #fff;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .glass-lens {
+        width: 200px;
+        height: 200px;
+      }
+      .test-label {
+        left: 0;
+      }
+      .test-back {
+        left: 20px;
+      }
+    }
+  </style>
+</head>
+<body style="background:#111">
+
+  <a href="#home" class="test-back">&larr; Back</a>
+
+  <svg style="position:absolute;width:0;height:0">
+    <defs>
+      <filter id="glass-displacement" x="-20%" y="-20%" width="140%" height="140%"
+              color-interpolation-filters="sRGB">
+        <feImage id="glass-map" result="map" />
+        <feDisplacementMap in="SourceGraphic" in2="map"
+                           scale="30" xChannelSelector="R" yChannelSelector="G"
+                           result="displaced" />
+        <feGaussianBlur in="displaced" stdDeviation="0.5" result="blurred" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="test-hero" id="test-hero">
+    <img src="images/a_lake_and_a_sea.jpg" alt="" id="test-bg"/>
+    <div class="glass-lens" id="glass-lens">
+      <div class="glass-refract">
+        <img src="images/a_lake_and_a_sea.jpg" alt="" id="test-refract"/>
+      </div>
+      <div class="glass-overlay"></div>
+      <div class="glass-rim"></div>
+    </div>
+  </div>
+
+  <div class="test-label">Drag the glass lens</div>
+
+  <script>
+    const hero = document.getElementById('test-hero');
+    const lens = document.getElementById('glass-lens');
+    const refractImg = document.getElementById('test-refract');
+    const bgImg = document.getElementById('test-bg');
+    const mapEl = document.getElementById('glass-map');
+
+    const LENS_SIZE = 280;
+    const MARGIN = 24;
+    const MAP_SIZE = LENS_SIZE + MARGIN * 2;
+
+    let lensX = (window.innerWidth - 280) / 2;
+    let lensY = (window.innerHeight - 280) / 2;
+    let dragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    function generateDisplacementMap() {
+      const canvas = document.createElement('canvas');
+      canvas.width = MAP_SIZE;
+      canvas.height = MAP_SIZE;
+      const ctx = canvas.getContext('2d');
+      const imgData = ctx.createImageData(MAP_SIZE, MAP_SIZE);
+      const data = imgData.data;
+
+      const cx = MAP_SIZE / 2;
+      const cy = MAP_SIZE / 2;
+      const radius = LENS_SIZE / 2;
+      const depth = 41;
+      const curvature = 2.8;
+      const scale = 30;
+
+      for (let y = 0; y < MAP_SIZE; y++) {
+        for (let x = 0; x < MAP_SIZE; x++) {
+          const dx = x - cx;
+          const dy = y - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist > radius + depth) {
+            const i = (y * MAP_SIZE + x) * 4;
+            data[i] = 128;
+            data[i + 1] = 128;
+            data[i + 2] = 0;
+            data[i + 3] = 0;
+            continue;
+          }
+
+          const edgeDist = radius - dist;
+          const normalized = Math.max(0, Math.min(1, edgeDist / depth));
+          const curved = Math.pow(normalized, curvature);
+
+          const nx = dist > 0 ? dx / dist : 0;
+          const ny = dist > 0 ? dy / dist : 0;
+
+          const offsetX = -nx * curved * scale;
+          const offsetY = -ny * curved * scale;
+
+          const r = Math.round(128 + offsetX * 1.275);
+          const g = Math.round(128 + offsetY * 1.275);
+
+          const i = (y * MAP_SIZE + x) * 4;
+          data[i] = r;
+          data[i + 1] = g;
+          data[i + 2] = 0;
+          data[i + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+      return canvas.toDataURL();
+    }
+
+    function updateLens() {
+      const heroRect = hero.getBoundingClientRect();
+      lens.style.left = lensX + 'px';
+      lens.style.top = lensY + 'px';
+
+      const imgRect = bgImg.getBoundingClientRect();
+      const offsetX = lensX - imgRect.left;
+      const offsetY = lensY - imgRect.top;
+
+      const scaleX = bgImg.naturalWidth / imgRect.width;
+      const scaleY = bgImg.naturalHeight / imgRect.height;
+
+      const cropX = offsetX * scaleX;
+      const cropY = offsetY * scaleY;
+      const cropW = LENS_SIZE * scaleX;
+      const cropH = LENS_SIZE * scaleY;
+
+      refractImg.style.width = imgRect.width + 'px';
+      refractImg.style.height = imgRect.height + 'px';
+      refractImg.style.objectFit = 'cover';
+      refractImg.style.objectPosition = 'center';
+      refractImg.style.position = 'absolute';
+      refractImg.style.left = -offsetX + 'px';
+      refractImg.style.top = -offsetY + 'px';
+    }
+
+    function init() {
+      const mapUrl = generateDisplacementMap();
+      mapEl.setAttribute('href', mapUrl);
+      mapEl.setAttribute('width', MAP_SIZE);
+      mapEl.setAttribute('height', MAP_SIZE);
+
+      lensX = (window.innerWidth - LENS_SIZE) / 2;
+      lensY = (window.innerHeight - LENS_SIZE) / 2;
+      updateLens();
+    }
+
+    function onPointerDown(e) {
+      dragging = true;
+      const rect = lens.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+      lens.style.cursor = 'grabbing';
+      e.preventDefault();
+    }
+
+    function onPointerMove(e) {
+      if (!dragging) return;
+      lensX = e.clientX - dragOffsetX;
+      lensY = e.clientY - dragOffsetY;
+
+      lensX = Math.max(-MARGIN, Math.min(window.innerWidth - LENS_SIZE + MARGIN, lensX));
+      lensY = Math.max(-MARGIN, Math.min(window.innerHeight - LENS_SIZE + MARGIN, lensY));
+
+      updateLens();
+    }
+
+    function onPointerUp() {
+      dragging = false;
+      lens.style.cursor = 'grab';
+    }
+
+    lens.style.cursor = 'grab';
+    lens.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+
+    window.addEventListener('resize', updateLens);
+
+    bgImg.onload = () => {
+      init();
+      document.getElementById('test-refract').src = bgImg.src;
+    };
+
+    if (bgImg.complete) {
+      init();
+      document.getElementById('test-refract').src = bgImg.src;
+    }
+  </script>
+</body>
+</html>
