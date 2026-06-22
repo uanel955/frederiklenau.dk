@@ -43,14 +43,22 @@ let galleryRendered = false;
 let touchStartX = 0;
 let touchEndX = 0;
 let crossfadeTimer = null;
+let activePage = null;
 
 // ── Panel navigation ──────────────────────────────────────
 function openPanel(page) {
   const panel = document.getElementById('panel-' + page);
   if (!panel) return;
 
+  closeAllPanels();
+
+  activePage = page;
   panel.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+  if (activeLink) activeLink.classList.add('active');
 
   if (page === 'work' && !galleryRendered) {
     renderGallery();
@@ -60,18 +68,25 @@ function openPanel(page) {
 
 function closeAllPanels() {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.body.style.overflow = '';
+  activePage = null;
 }
 
 function initNav() {
-  document.querySelectorAll('.home-word').forEach(btn => {
+  document.querySelectorAll('.nav-link').forEach(btn => {
     btn.addEventListener('click', () => {
-      openPanel(btn.dataset.page);
+      if (activePage === btn.dataset.page) {
+        closeAllPanels();
+      } else {
+        openPanel(btn.dataset.page);
+      }
     });
   });
 
-  document.querySelectorAll('.panel-close').forEach(btn => {
-    btn.addEventListener('click', closeAllPanels);
+  document.getElementById('site-name').addEventListener('click', (e) => {
+    e.preventDefault();
+    closeAllPanels();
   });
 
   document.addEventListener('keydown', (e) => {
@@ -79,7 +94,7 @@ function initNav() {
       const lightbox = document.getElementById('lightbox');
       if (lightbox.classList.contains('active')) {
         closeLightbox();
-      } else {
+      } else if (activePage) {
         closeAllPanels();
       }
     }

@@ -42,52 +42,78 @@ a:hover {
   opacity: 0.5;
 }
 
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  background: var(--bg);
+}
+
+.site-name {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.site-name:hover {
+  opacity: 1;
+}
+
+.site-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
+  transition: color 0.4s ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--text-primary);
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.nav-link:hover {
+  color: var(--text-primary);
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+.nav-link.active {
+  color: var(--text-primary);
+}
+.nav-link.active::after {
+  width: 100%;
+}
+
 /* ── Home Screen ────────────────────────────────────────── */
 .home-screen {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: var(--bg);
-}
-
-.home-words {
-  display: flex;
-  gap: 3.5rem;
-}
-
-.home-word {
-  background: none;
-  border: none;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  cursor: pointer;
-  padding: 0.5rem 0;
-  position: relative;
-  transition: color 0.4s ease;
-}
-.home-word::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 1px;
-  background: var(--text-primary);
-  transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.home-word:hover {
-  color: var(--text-muted);
-}
-.home-word:hover::after {
-  width: 100%;
-  left: 0;
 }
 
 /* ── Panels ─────────────────────────────────────────────── */
@@ -105,27 +131,6 @@ a:hover {
 .panel.active {
   opacity: 1;
   pointer-events: auto;
-}
-
-.panel-close {
-  position: fixed;
-  top: 28px;
-  left: 28px;
-  z-index: 210;
-  background: none;
-  border: none;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.9rem;
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 8px 0;
-  transition: color 0.4s ease;
-}
-.panel-close:hover {
-  color: var(--text-primary);
 }
 
 .panel-inner {
@@ -357,8 +362,10 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .home-words { gap: 2rem; }
-  .home-word { font-size: 1rem; letter-spacing: 0.14em; }
+  .site-header { padding: 16px 20px; }
+  .site-name { font-size: 0.8rem; }
+  .site-nav { gap: 1.5rem; }
+  .nav-link { font-size: 0.7rem; }
   .panel-inner { padding: 80px 24px 40px; }
   .gallery { gap: 16px; }
   .lightbox-content { max-width: 85vw; }
@@ -367,7 +374,12 @@ a:hover {
 }
 
 @media (max-width: 480px) {
-  .home-words { flex-direction: column; gap: 1.5rem; align-items: center; }
+  .site-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .site-nav { gap: 1.2rem; }
   .gallery { grid-template-columns: 1fr; }
 }
 

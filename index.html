@@ -33,25 +33,27 @@
 </head>
 <body>
 
-  <!-- ── Home (3 words) ──────────────────────────────────── -->
-  <div class="home-screen" id="home-screen">
-    <div class="home-words">
-      <button class="home-word" data-page="work">Work</button>
-      <button class="home-word" data-page="about">About</button>
-      <button class="home-word" data-page="contact">Contact</button>
-    </div>
-  </div>
+  <!-- ── Header ──────────────────────────────────────────── -->
+  <header class="site-header">
+    <a href="#" class="site-name" id="site-name">Frederik Lenau</a>
+    <nav class="site-nav">
+      <button class="nav-link" data-page="work">Work</button>
+      <button class="nav-link" data-page="about">About</button>
+      <button class="nav-link" data-page="contact">Contact</button>
+    </nav>
+  </header>
+
+  <!-- ── Home (empty, just header) ───────────────────────── -->
+  <div class="home-screen" id="home-screen"></div>
 
   <!-- ── Overlay panels ──────────────────────────────────── -->
   <div class="panel" id="panel-work">
-    <button class="panel-close" aria-label="Close">&larr;</button>
     <div class="panel-inner">
       <div class="gallery" id="gallery"></div>
     </div>
   </div>
 
   <div class="panel" id="panel-about">
-    <button class="panel-close" aria-label="Close">&larr;</button>
     <div class="panel-inner">
       <div class="text-page">
         <div class="text-content">
@@ -63,7 +65,6 @@
   </div>
 
   <div class="panel" id="panel-contact">
-    <button class="panel-close" aria-label="Close">&larr;</button>
     <div class="panel-inner">
       <div class="text-page">
         <div class="text-content">
