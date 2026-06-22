@@ -258,4 +258,14 @@ function initLightbox() {
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initLightbox();
+  preloadImages();
 });
+
+function preloadImages() {
+  PIECES.forEach(p => {
+    if (p.images.length > 0) {
+      const img = new Image();
+      img.src = p.images[0];
+    }
+  });
+}
