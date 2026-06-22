@@ -453,8 +453,8 @@ a:hover {
   .lightbox-content { max-width: 90vw; max-height: 65vh; }
   .lightbox-prev,
   .lightbox-next {
-    font-size: 1.2rem;
-    padding: 12px;
+    font-size: 2rem;
+    padding: 20px;
   }
   .lightbox-prev { left: 8px; }
   .lightbox-next { right: 8px; }
