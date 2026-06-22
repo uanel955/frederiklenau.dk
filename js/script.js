@@ -39,8 +39,6 @@ const PIECES = [
 
 let currentLightboxIndex = 0;
 let filteredPieces = PIECES;
-let touchStartX = 0;
-let touchEndX = 0;
 let crossfadeTimer = null;
 let activePage = null;
 
@@ -201,18 +199,6 @@ function updateLightbox() {
   document.getElementById('lightbox-next').style.display = currentLightboxIndex < filteredPieces.length - 1 ? 'block' : 'none';
 }
 
-function handleSwipe() {
-  const diff = touchStartX - touchEndX;
-  if (Math.abs(diff) < 50) return;
-  if (diff > 0 && currentLightboxIndex < filteredPieces.length - 1) {
-    currentLightboxIndex++;
-    updateLightbox();
-  } else if (diff < 0 && currentLightboxIndex > 0) {
-    currentLightboxIndex--;
-    updateLightbox();
-  }
-}
-
 function initLightbox() {
   const lightbox = document.getElementById('lightbox');
 
@@ -231,15 +217,6 @@ function initLightbox() {
       updateLightbox();
     }
   });
-
-  lightbox.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  lightbox.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
 
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
