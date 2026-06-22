@@ -450,9 +450,16 @@ a:hover {
   .home-words { gap: 2rem; }
   .home-word { font-size: 1rem; letter-spacing: 0.14em; }
   .panel-inner { padding: 80px 24px 40px; }
-  .lightbox-content { max-width: 85vw; }
-  .lightbox-prev { left: 12px; }
-  .lightbox-next { right: 12px; }
+  .lightbox-content { max-width: 90vw; max-height: 65vh; }
+  .lightbox-prev,
+  .lightbox-next {
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-meta { padding: 16px; font-size: 0.75rem; }
+  .lightbox-counter { bottom: 16px; right: 16px; font-size: 0.65rem; }
 }
 
 @media (max-width: 480px) {
