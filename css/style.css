@@ -84,8 +84,9 @@ a:hover {
   border: none;
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text-muted);
   cursor: pointer;
   padding: 4px 0;
@@ -135,9 +136,9 @@ a:hover {
   background: none;
   border: none;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  letter-spacing: 0.18em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-primary);
   cursor: pointer;
@@ -193,12 +194,14 @@ a:hover {
 }
 
 .text-content p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1.9;
   color: var(--text-primary);
   margin-bottom: 20px;
   text-wrap: pretty;
-  font-weight: 300;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 .text-content a {
   color: var(--text-primary);
@@ -305,9 +308,10 @@ a:hover {
   position: absolute;
   bottom: 28px;
   right: 28px;
-  font-size: 0.7rem;
-  font-weight: 300;
-  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text-muted);
   z-index: 310;
 }
@@ -315,18 +319,19 @@ a:hover {
 .lightbox-meta {
   text-align: center;
   padding: 28px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   line-height: 1.8;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 .lightbox-meta .meta-title {
   color: var(--text-primary);
   margin-bottom: 4px;
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 /* ── Mobile Toggle ─────────────────────────────────────── */
@@ -400,8 +405,9 @@ a:hover {
   border: none;
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text-muted);
   cursor: pointer;
   padding: 12px 0;
@@ -430,7 +436,9 @@ a:hover {
 
 .mobile-footer {
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: #b0b0b0;
   line-height: 1.6;
   padding-top: 16px;
@@ -443,9 +451,9 @@ a:hover {
 
 @media (max-width: 768px) {
   .site-header { padding: 16px 20px; }
-  .site-name { font-size: 0.8rem; }
+  .site-name { font-size: 0.85rem; }
   .home-words { gap: 2rem; }
-  .home-word { font-size: 1rem; letter-spacing: 0.14em; }
+  .home-word { font-size: 0.85rem; }
   .panel-inner { padding: 80px 24px 40px; }
   .lightbox-content { max-width: 90vw; max-height: 65vh; }
   .lightbox-prev,
@@ -455,8 +463,8 @@ a:hover {
   }
   .lightbox-prev { left: 8px; }
   .lightbox-next { right: 8px; }
-  .lightbox-meta { padding: 16px; font-size: 0.75rem; }
-  .lightbox-counter { bottom: 16px; right: 16px; font-size: 0.65rem; }
+  .lightbox-meta { padding: 16px; font-size: 0.85rem; }
+  .lightbox-counter { bottom: 16px; right: 16px; font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
