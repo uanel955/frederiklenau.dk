@@ -293,24 +293,23 @@ function initMobileMenu() {
 function initLoader() {
   const loader = document.getElementById('loader');
   const video = document.getElementById('loader-video');
-  if (!loader || !video) return;
+  if (!loader) return;
 
   let hidden = false;
   function hideLoader() {
     if (hidden) return;
     hidden = true;
     loader.classList.add('done');
-    setTimeout(() => { loader.style.display = 'none'; }, 600);
+    setTimeout(() => { loader.style.display = 'none'; }, 700);
   }
 
-  video.addEventListener('ended', hideLoader);
-  video.addEventListener('error', hideLoader);
-  video.addEventListener('canplay', () => {
-    video.play().catch(hideLoader);
-  });
+  if (video) {
+    video.play().catch(() => {});
+    video.addEventListener('ended', hideLoader);
+  }
 
   loader.addEventListener('click', hideLoader);
-  setTimeout(hideLoader, 6000);
+  setTimeout(hideLoader, 5000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
