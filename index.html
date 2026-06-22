@@ -10,14 +10,26 @@
   <meta property="og:type" content="website"/>
   <meta property="og:description" content="Frederik Lenau — paintings"/>
   <meta property="og:url" content="https://frederiklenau.dk"/>
-  <meta property="og:image" content="images/is_it_that_season_of_the_year.png"/>
+  <meta property="og:image" content="https://frederiklenau.dk/images/is_it_that_season_of_the_year.png"/>
   <meta property="twitter:card" content="summary_large_image"/>
   <link rel="canonical" href="https://frederiklenau.dk"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/></svg>"/>
   <title>Frederik Lenau</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Frederik Lenau",
+    "url": "https://frederiklenau.dk",
+    "jobTitle": "Painter",
+    "knowsAbout": "Painting",
+    "sameAs": ["https://instagram.com/frederiklenau"]
+  }
+  </script>
 </head>
 <body>
 
@@ -50,7 +62,7 @@
 
     <!-- ── Home (Hero) ──────────────────────────────────── -->
     <section id="home" class="page active">
-      <div class="hero-carousel" id="hero-carousel"></div>
+      <div class="hero-carousel" id="hero-carousel" aria-label="Paintings carousel"></div>
     </section>
 
     <!-- ── Work (Gallery) ───────────────────────────────── -->
@@ -88,11 +100,12 @@
   </footer>
 
   <!-- ── Lightbox ───────────────────────────────────────── -->
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
     <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
     <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous">&larr;</button>
     <button class="lightbox-next" id="lightbox-next" aria-label="Next">&rarr;</button>
     <div class="lightbox-content">
+      <div class="lightbox-spinner" id="lightbox-spinner"></div>
       <img src="" alt="" id="lightbox-img"/>
     </div>
     <div class="lightbox-meta" id="lightbox-meta"></div>

@@ -14,20 +14,49 @@ const HERO_IMAGES = [
 
 let currentHeroIndex = 0;
 let heroInterval = null;
+let heroPaused = false;
+let heroCarouselEl = null;
 
 function initHeroCarousel() {
-  const carousel = document.getElementById('hero-carousel');
-  if (!carousel) return;
+  heroCarouselEl = document.getElementById('hero-carousel');
+  if (!heroCarouselEl) return;
 
-  carousel.innerHTML = HERO_IMAGES.map((src, i) =>
-    `<div class="hero-slide${i === 0 ? ' active' : ''}"><img src="${src}" alt=""/></div>`
-  ).join('');
+  const fragment = document.createDocumentFragment();
+  HERO_IMAGES.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+
+    if (i === 0) {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      slide.appendChild(img);
+    }
+
+    fragment.appendChild(slide);
+  });
+  heroCarouselEl.appendChild(fragment);
+
+  heroCarouselEl.addEventListener('mouseenter', () => { heroPaused = true; });
+  heroCarouselEl.addEventListener('mouseleave', () => { heroPaused = false; });
 
   heroInterval = setInterval(() => {
-    const slides = carousel.querySelectorAll('.hero-slide');
-    slides[currentHeroIndex].classList.remove('active');
+    if (heroPaused) return;
+
+    const slides = heroCarouselEl.querySelectorAll('.hero-slide');
+    const prev = currentHeroIndex;
     currentHeroIndex = (currentHeroIndex + 1) % slides.length;
+
+    slides[prev].classList.remove('active');
     slides[currentHeroIndex].classList.add('active');
+
+    const nextImg = slides[currentHeroIndex].querySelector('img');
+    if (!nextImg) {
+      const img = document.createElement('img');
+      img.src = HERO_IMAGES[currentHeroIndex];
+      img.alt = '';
+      slides[currentHeroIndex].appendChild(img);
+    }
   }, 4000);
 }
 
@@ -72,6 +101,9 @@ const PIECES = [
 
 let currentLightboxIndex = 0;
 let filteredPieces = [];
+let galleryRendered = false;
+let touchStartX = 0;
+let touchEndX = 0;
 
 function getPageFromHash() {
   const hash = location.hash.replace('#', '');
@@ -98,8 +130,9 @@ function navigate() {
     navLink.classList.add('active');
   }
 
-  if (page === 'work') {
+  if (page === 'work' && !galleryRendered) {
     renderGallery();
+    galleryRendered = true;
   }
 
   window.scrollTo(0, 0);
@@ -150,13 +183,28 @@ function updateLightbox() {
   const piece = filteredPieces[currentLightboxIndex];
   const img = document.getElementById('lightbox-img');
   const meta = document.getElementById('lightbox-meta');
+  const spinner = document.getElementById('lightbox-spinner');
+
+  img.classList.add('loading');
+  spinner.classList.add('active');
 
   if (piece.images.length > 0) {
-    img.src = piece.images[0];
-    img.alt = piece.title;
-    img.style.display = 'block';
+    const newImg = new Image();
+    newImg.onload = () => {
+      img.src = piece.images[0];
+      img.alt = piece.title;
+      img.style.display = 'block';
+      img.classList.remove('loading');
+      spinner.classList.remove('active');
+    };
+    newImg.onerror = () => {
+      img.style.display = 'none';
+      spinner.classList.remove('active');
+    };
+    newImg.src = piece.images[0];
   } else {
     img.style.display = 'none';
+    spinner.classList.remove('active');
   }
 
   const statusText = piece.status === 'gone' ? ' — gone' : piece.status === 'sold' ? ' — sold' : '';
@@ -167,6 +215,62 @@ function updateLightbox() {
 
   document.getElementById('lightbox-prev').style.display = currentLightboxIndex > 0 ? 'block' : 'none';
   document.getElementById('lightbox-next').style.display = currentLightboxIndex < filteredPieces.length - 1 ? 'block' : 'none';
+}
+
+function handleSwipe() {
+  const diff = touchStartX - touchEndX;
+  if (Math.abs(diff) < 50) return;
+
+  if (diff > 0 && currentLightboxIndex < filteredPieces.length - 1) {
+    currentLightboxIndex++;
+    updateLightbox();
+  } else if (diff < 0 && currentLightboxIndex > 0) {
+    currentLightboxIndex--;
+    updateLightbox();
+  }
+}
+
+function initLightbox() {
+  const lightbox = document.getElementById('lightbox');
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+
+  document.getElementById('lightbox-prev').addEventListener('click', () => {
+    if (currentLightboxIndex > 0) {
+      currentLightboxIndex--;
+      updateLightbox();
+    }
+  });
+
+  document.getElementById('lightbox-next').addEventListener('click', () => {
+    if (currentLightboxIndex < filteredPieces.length - 1) {
+      currentLightboxIndex++;
+      updateLightbox();
+    }
+  });
+
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
+      currentLightboxIndex--;
+      updateLightbox();
+    }
+    if (e.key === 'ArrowRight' && currentLightboxIndex < filteredPieces.length - 1) {
+      currentLightboxIndex++;
+      updateLightbox();
+    }
+  });
 }
 
 function initMobileMenu() {
@@ -189,36 +293,8 @@ function initMobileMenu() {
 document.addEventListener('DOMContentLoaded', () => {
   initHeroCarousel();
   initMobileMenu();
+  initLightbox();
   navigate();
 
   window.addEventListener('hashchange', navigate);
-
-  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-  document.getElementById('lightbox-prev').addEventListener('click', () => {
-    if (currentLightboxIndex > 0) {
-      currentLightboxIndex--;
-      updateLightbox();
-    }
-  });
-  document.getElementById('lightbox-next').addEventListener('click', () => {
-    if (currentLightboxIndex < filteredPieces.length - 1) {
-      currentLightboxIndex++;
-      updateLightbox();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    const lightbox = document.getElementById('lightbox');
-    if (!lightbox.classList.contains('active')) return;
-
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
-      currentLightboxIndex--;
-      updateLightbox();
-    }
-    if (e.key === 'ArrowRight' && currentLightboxIndex < filteredPieces.length - 1) {
-      currentLightboxIndex++;
-      updateLightbox();
-    }
-  });
 });
