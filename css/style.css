@@ -264,10 +264,6 @@ a:hover {
 }
 .lightbox-prev { left: 28px; }
 .lightbox-next { right: 28px; }
-.lightbox-prev:hover,
-.lightbox-next:hover {
-  opacity: 0.4;
-}
 
 .lightbox-content {
   max-width: 55vw;
