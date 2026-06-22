@@ -8,7 +8,6 @@
   --bg: #faf9f7;
   --text-primary: #1a1a1a;
   --text-muted: #999;
-  --gold: #b8a88a;
 }
 
 html {
@@ -62,8 +61,8 @@ a:hover {
 .home-word {
   background: none;
   border: none;
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
-  font-size: 1.15rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
   font-weight: 300;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -80,11 +79,11 @@ a:hover {
   left: 50%;
   width: 0;
   height: 1px;
-  background: var(--gold);
+  background: var(--text-primary);
   transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .home-word:hover {
-  color: var(--gold);
+  color: var(--text-muted);
 }
 .home-word:hover::after {
   width: 100%;
@@ -126,7 +125,7 @@ a:hover {
   transition: color 0.4s ease;
 }
 .panel-close:hover {
-  color: var(--gold);
+  color: var(--text-primary);
 }
 
 .panel-inner {
@@ -211,15 +210,15 @@ a:hover {
   font-weight: 300;
 }
 .text-content a {
-  color: var(--gold);
+  color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px solid rgba(184, 168, 138, 0.3);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
   padding-bottom: 1px;
-  transition: border-color 0.4s ease, color 0.4s ease;
+  transition: border-color 0.4s ease;
 }
 .text-content a:hover {
   opacity: 1;
-  border-color: var(--gold);
+  border-color: var(--text-primary);
 }
 
 /* ── Lightbox ──────────────────────────────────────────── */
@@ -254,7 +253,7 @@ a:hover {
   transition: color 0.4s ease;
 }
 .lightbox-close:hover {
-  color: var(--gold);
+  color: var(--text-primary);
 }
 
 .lightbox-prev,
@@ -274,7 +273,7 @@ a:hover {
 .lightbox-next { right: 28px; }
 .lightbox-prev:hover,
 .lightbox-next:hover {
-  color: var(--gold);
+  color: var(--text-primary);
 }
 
 .lightbox-content {
@@ -300,7 +299,7 @@ a:hover {
   width: 20px;
   height: 20px;
   border: 1px solid rgba(0,0,0,0.08);
-  border-top-color: var(--gold);
+  border-top-color: var(--text-muted);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   display: none;
@@ -323,8 +322,7 @@ a:hover {
 .lightbox-meta .meta-title {
   color: var(--text-primary);
   margin-bottom: 4px;
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   letter-spacing: 0.06em;
 }
