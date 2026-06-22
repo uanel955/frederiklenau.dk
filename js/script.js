@@ -1,3 +1,36 @@
+const HERO_IMAGES = [
+  'images/a_lake_and_a_sea.jpg',
+  'images/is_it_that_season_of_the_year.jpg',
+  'images/differences_interupt.jpg',
+  'images/could_you_move_the_same_way.jpeg',
+  'images/can_you_decide.jpeg',
+  'images/can_you_see_through.jpg',
+  'images/gone_1.jpg',
+  'images/is_it_that_season_of_the_year.png',
+  'images/is_it_normal_to_interrupt_so_much.png',
+  'images/if_you_could_move_the_same_way.png',
+  'images/can_you_decide.png'
+];
+
+let currentHeroIndex = 0;
+let heroInterval = null;
+
+function initHeroCarousel() {
+  const carousel = document.getElementById('hero-carousel');
+  if (!carousel) return;
+
+  carousel.innerHTML = HERO_IMAGES.map((src, i) =>
+    `<div class="hero-slide${i === 0 ? ' active' : ''}"><img src="${src}" alt=""/></div>`
+  ).join('');
+
+  heroInterval = setInterval(() => {
+    const slides = carousel.querySelectorAll('.hero-slide');
+    slides[currentHeroIndex].classList.remove('active');
+    currentHeroIndex = (currentHeroIndex + 1) % slides.length;
+    slides[currentHeroIndex].classList.add('active');
+  }, 4000);
+}
+
 const PIECES = [
   {
     id: 'is-it-that-season-of-the-year',
@@ -154,6 +187,7 @@ function initMobileMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeroCarousel();
   initMobileMenu();
   navigate();
 
