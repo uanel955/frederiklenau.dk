@@ -57,8 +57,8 @@ function openPanel(page) {
   document.getElementById('site-header').classList.add('visible');
   document.body.style.overflow = 'hidden';
 
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(l => l.classList.remove('active'));
+  const activeLink = document.querySelector(`.nav-link[data-page="${page}"], .mobile-nav-link[data-page="${page}"]`);
   if (activeLink) activeLink.classList.add('active');
 
   if (page === 'work' && !galleryRendered) {
@@ -69,10 +69,17 @@ function openPanel(page) {
 
 function closeAllPanels() {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(l => l.classList.remove('active'));
   document.getElementById('site-header').classList.remove('visible');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('mobile-toggle').classList.remove('active');
   document.body.style.overflow = '';
   activePage = null;
+}
+
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('mobile-toggle').classList.remove('active');
 }
 
 function initNav() {
@@ -90,6 +97,24 @@ function initNav() {
         openPanel(btn.dataset.page);
       }
     });
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeMobileMenu();
+      if (activePage === btn.dataset.page) {
+        closeAllPanels();
+      } else {
+        openPanel(btn.dataset.page);
+      }
+    });
+  });
+
+  document.getElementById('mobile-toggle').addEventListener('click', () => {
+    const toggle = document.getElementById('mobile-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle.classList.toggle('active');
+    menu.classList.toggle('open');
   });
 
   document.getElementById('site-name').addEventListener('click', (e) => {
