@@ -1,65 +1,3 @@
-const HERO_IMAGES = [
-  'images/a_lake_and_a_sea.jpg',
-  'images/is_it_that_season_of_the_year.jpg',
-  'images/differences_interupt.jpg',
-  'images/could_you_move_the_same_way.jpeg',
-  'images/can_you_decide.jpeg',
-  'images/can_you_see_through.jpg',
-  'images/gone_1.jpg',
-  'images/is_it_that_season_of_the_year.png',
-  'images/is_it_normal_to_interrupt_so_much.png',
-  'images/if_you_could_move_the_same_way.png',
-  'images/can_you_decide.png'
-];
-
-let currentHeroIndex = 0;
-let heroInterval = null;
-let heroPaused = false;
-let heroCarouselEl = null;
-
-function initHeroCarousel() {
-  heroCarouselEl = document.getElementById('hero-carousel');
-  if (!heroCarouselEl) return;
-
-  const fragment = document.createDocumentFragment();
-  HERO_IMAGES.forEach((src, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
-
-    if (i === 0) {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = '';
-      slide.appendChild(img);
-    }
-
-    fragment.appendChild(slide);
-  });
-  heroCarouselEl.appendChild(fragment);
-
-  heroCarouselEl.addEventListener('mouseenter', () => { heroPaused = true; });
-  heroCarouselEl.addEventListener('mouseleave', () => { heroPaused = false; });
-
-  heroInterval = setInterval(() => {
-    if (heroPaused) return;
-
-    const slides = heroCarouselEl.querySelectorAll('.hero-slide');
-    const prev = currentHeroIndex;
-    currentHeroIndex = (currentHeroIndex + 1) % slides.length;
-
-    slides[prev].classList.remove('active');
-    slides[currentHeroIndex].classList.add('active');
-
-    const nextImg = slides[currentHeroIndex].querySelector('img');
-    if (!nextImg) {
-      const img = document.createElement('img');
-      img.src = HERO_IMAGES[currentHeroIndex];
-      img.alt = '';
-      slides[currentHeroIndex].appendChild(img);
-    }
-  }, 4000);
-}
-
 const PIECES = [
   {
     id: 'is-it-that-season-of-the-year',
@@ -105,39 +43,49 @@ let galleryRendered = false;
 let touchStartX = 0;
 let touchEndX = 0;
 
-function getPageFromHash() {
-  const hash = location.hash.replace('#', '');
-  if (!hash || hash === 'home') return 'home';
-  if (hash === 'work') return 'work';
-  if (hash === 'about') return 'about';
-  if (hash === 'contact') return 'contact';
-  return 'home';
-}
+// ── Panel navigation ──────────────────────────────────────
+function openPanel(page) {
+  const panel = document.getElementById('panel-' + page);
+  if (!panel) return;
 
-function navigate() {
-  const page = getPageFromHash();
-
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-
-  const target = document.getElementById(page);
-  if (target) {
-    target.classList.add('active');
-  }
-
-  const navLink = document.querySelector(`.nav-link[href="#${page}"]`);
-  if (navLink) {
-    navLink.classList.add('active');
-  }
+  panel.classList.add('active');
+  document.body.style.overflow = 'hidden';
 
   if (page === 'work' && !galleryRendered) {
     renderGallery();
     galleryRendered = true;
   }
-
-  window.scrollTo(0, 0);
 }
 
+function closeAllPanels() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.body.style.overflow = '';
+}
+
+function initNav() {
+  document.querySelectorAll('.home-word').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openPanel(btn.dataset.page);
+    });
+  });
+
+  document.querySelectorAll('.panel-close').forEach(btn => {
+    btn.addEventListener('click', closeAllPanels);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const lightbox = document.getElementById('lightbox');
+      if (lightbox.classList.contains('active')) {
+        closeLightbox();
+      } else {
+        closeAllPanels();
+      }
+    }
+  });
+}
+
+// ── Gallery ───────────────────────────────────────────────
 function renderGallery() {
   const gallery = document.getElementById('gallery');
   if (!gallery) return;
@@ -149,13 +97,8 @@ function renderGallery() {
       return `<div class="gallery-item" data-index="${i}">
         <img src="${p.images[0]}" alt="${p.title}" loading="lazy"/>
       </div>`;
-    } else {
-      return `<div class="gallery-item" data-index="${i}">
-        <div class="gallery-item-placeholder">
-          <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="60" fill="#ccc"/></svg>
-        </div>
-      </div>`;
     }
+    return '';
   }).join('');
 
   gallery.querySelectorAll('.gallery-item').forEach(item => {
@@ -165,18 +108,16 @@ function renderGallery() {
   });
 }
 
+// ── Lightbox ──────────────────────────────────────────────
 function openLightbox(index) {
   currentLightboxIndex = index;
   const lightbox = document.getElementById('lightbox');
   lightbox.classList.add('active');
   updateLightbox();
-  document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-  const lightbox = document.getElementById('lightbox');
-  lightbox.classList.remove('active');
-  document.body.style.overflow = '';
+  document.getElementById('lightbox').classList.remove('active');
 }
 
 function updateLightbox() {
@@ -220,7 +161,6 @@ function updateLightbox() {
 function handleSwipe() {
   const diff = touchStartX - touchEndX;
   if (Math.abs(diff) < 50) return;
-
   if (diff > 0 && currentLightboxIndex < filteredPieces.length - 1) {
     currentLightboxIndex++;
     updateLightbox();
@@ -260,8 +200,6 @@ function initLightbox() {
 
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
-
-    if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
       currentLightboxIndex--;
       updateLightbox();
@@ -273,28 +211,8 @@ function initLightbox() {
   });
 }
 
-function initMobileMenu() {
-  const toggle = document.getElementById('mobile-toggle');
-  const sidebar = document.getElementById('sidebar');
-
-  toggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    toggle.classList.toggle('active');
-  });
-
-  sidebar.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      toggle.classList.remove('active');
-    });
-  });
-}
-
+// ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initHeroCarousel();
-  initMobileMenu();
+  initNav();
   initLightbox();
-  navigate();
-
-  window.addEventListener('hashchange', navigate);
 });
