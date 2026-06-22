@@ -295,14 +295,22 @@ function initLoader() {
   const video = document.getElementById('loader-video');
   if (!loader || !video) return;
 
+  let hidden = false;
   function hideLoader() {
+    if (hidden) return;
+    hidden = true;
     loader.classList.add('done');
     setTimeout(() => { loader.style.display = 'none'; }, 600);
   }
 
   video.addEventListener('ended', hideLoader);
   video.addEventListener('error', hideLoader);
-  setTimeout(hideLoader, 8000);
+  video.addEventListener('canplay', () => {
+    video.play().catch(hideLoader);
+  });
+
+  loader.addEventListener('click', hideLoader);
+  setTimeout(hideLoader, 6000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
