@@ -290,30 +290,7 @@ function initMobileMenu() {
   });
 }
 
-function initLoader() {
-  const loader = document.getElementById('loader');
-  const video = document.getElementById('loader-video');
-  if (!loader) return;
-
-  let hidden = false;
-  function hideLoader() {
-    if (hidden) return;
-    hidden = true;
-    loader.style.opacity = '0';
-    loader.style.pointerEvents = 'none';
-    setTimeout(() => { loader.remove(); }, 700);
-  }
-
-  if (video) {
-    video.play().catch(() => {});
-  }
-
-  loader.addEventListener('click', hideLoader);
-  setTimeout(hideLoader, 4000);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  initLoader();
   initHeroCarousel();
   initMobileMenu();
   initLightbox();
