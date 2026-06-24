@@ -2,7 +2,7 @@ const PIECES = [
   {
     id: 'is-it-that-season-of-the-year',
     title: 'is it that season of the year?',
-    media: 'acryl on canvas',
+    media: 'oil and acryl on canvas',
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'available',
@@ -20,7 +20,7 @@ const PIECES = [
   {
     id: 'if-you-could-move-the-same-way',
     title: 'if you could move the same way',
-    media: 'acryl on canvas',
+    media: 'oil and acryl on canvas',
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'sold',
