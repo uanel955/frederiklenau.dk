@@ -125,6 +125,12 @@ function initNav() {
     });
   });
 
+  document.querySelectorAll('.about-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openPanel(btn.dataset.page);
+    });
+  });
+
   document.querySelectorAll('.nav-link').forEach(btn => {
     btn.addEventListener('click', () => {
       if (activePage === btn.dataset.page) {
