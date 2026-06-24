@@ -64,7 +64,7 @@ const ARCHITECTURE = [
   },
   {
     id: 'above-plan',
-    title: 'above plan',
+    title: 'floor plan',
     images: ['images/IMG_7915.jpeg']
   }
 ];
