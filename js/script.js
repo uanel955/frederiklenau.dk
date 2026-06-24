@@ -6,7 +6,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'available',
-    images: ['images/is_it_that_season_of_the_year.png']
+    images: ['images/is_it_that_season_of_the_year.jpg']
   },
   {
     id: 'is-it-normal-to-interrupt-so-much',
@@ -15,7 +15,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'available',
-    images: ['images/is_it_normal_to_interrupt_so_much.png']
+    images: ['images/is_it_normal_to_interrupt_so_much.jpg']
   },
   {
     id: 'if-you-could-move-the-same-way',
@@ -24,7 +24,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'sold',
-    images: ['images/if_you_could_move_the_same_way.png']
+    images: ['images/if_you_could_move_the_same_way.jpg']
   },
   {
     id: 'can-you-decide',
@@ -33,7 +33,7 @@ const PIECES = [
     dimensions: '100 x 150 cm',
     year: 2025,
     status: 'sold',
-    images: ['images/can_you_decide.png']
+    images: ['images/can_you_decide.jpg']
   },
   {
     id: 'this-place-seems-familiar',
@@ -42,7 +42,7 @@ const PIECES = [
     dimensions: '30 x 50 cm',
     year: 2025,
     status: 'available',
-    images: ['images/IMG_7600.jpeg']
+    images: ['images/IMG_7600.jpg']
   }
 ];
 
@@ -50,22 +50,22 @@ const ARCHITECTURE = [
   {
     id: 'angle-a',
     title: 'angle a',
-    images: ['images/IMG_7912.jpeg']
+    images: ['images/IMG_7912.jpg']
   },
   {
     id: 'angle-b',
     title: 'angle b',
-    images: ['images/IMG_7913.jpeg']
+    images: ['images/IMG_7913.jpg']
   },
   {
     id: 'angle-c',
     title: 'angle c',
-    images: ['images/IMG_7914.jpeg']
+    images: ['images/IMG_7914.jpg']
   },
   {
     id: 'above-plan',
     title: 'floor plan',
-    images: ['images/IMG_7915.jpeg']
+    images: ['images/IMG_7915.jpg']
   }
 ];
 
