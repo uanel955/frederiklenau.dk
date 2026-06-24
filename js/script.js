@@ -46,10 +46,34 @@ const PIECES = [
   }
 ];
 
+const ARCHITECTURE = [
+  {
+    id: 'angle-a',
+    title: 'angle a',
+    images: ['images/IMG_7912.jpeg']
+  },
+  {
+    id: 'angle-b',
+    title: 'angle b',
+    images: ['images/IMG_7913.jpeg']
+  },
+  {
+    id: 'angle-c',
+    title: 'angle c',
+    images: ['images/IMG_7914.jpeg']
+  },
+  {
+    id: 'above-plan',
+    title: 'above plan',
+    images: ['images/IMG_7915.jpeg']
+  }
+];
+
 let currentLightboxIndex = 0;
 let filteredPieces = PIECES;
 let crossfadeTimer = null;
 let activePage = null;
+let activeCollection = PIECES;
 
 // ── Panel navigation ──────────────────────────────────────
 function openPanel(page) {
@@ -68,6 +92,12 @@ function openPanel(page) {
   if (activeLink) activeLink.classList.add('active');
 
   if (page === 'work') {
+    activeCollection = PIECES;
+    filteredPieces = PIECES;
+    openLightbox(0);
+  } else if (page === 'architecture') {
+    activeCollection = ARCHITECTURE;
+    filteredPieces = ARCHITECTURE;
     openLightbox(0);
   }
 }
@@ -159,7 +189,7 @@ function closeLightbox() {
 }
 
 function updateLightbox() {
-  const piece = filteredPieces[currentLightboxIndex];
+  const piece = activeCollection[currentLightboxIndex];
   const img = document.getElementById('lightbox-img');
   const imgBack = document.getElementById('lightbox-img-back');
   const meta = document.getElementById('lightbox-meta');
@@ -196,16 +226,19 @@ function updateLightbox() {
     newImg.src = piece.images[0];
   }
 
-  counter.textContent = `${currentLightboxIndex + 1} / ${filteredPieces.length}`;
+  counter.textContent = `${currentLightboxIndex + 1} / ${activeCollection.length}`;
 
   const statusText = piece.status === 'sold' ? ' — sold' : '';
+  const mediaText = piece.media ? ` · ${piece.media}` : '';
+  const dimText = piece.dimensions ? `${piece.dimensions}` : '';
+  const yearText = piece.year ? ` · ${piece.year}` : '';
   meta.innerHTML = `
     <div class="meta-title">${piece.title}</div>
-    ${piece.dimensions} · ${piece.media} · ${piece.year}${statusText}
+    ${dimText}${mediaText}${yearText}${statusText}
   `;
 
   document.getElementById('lightbox-prev').style.display = currentLightboxIndex > 0 ? 'block' : 'none';
-  document.getElementById('lightbox-next').style.display = currentLightboxIndex < filteredPieces.length - 1 ? 'block' : 'none';
+  document.getElementById('lightbox-next').style.display = currentLightboxIndex < activeCollection.length - 1 ? 'block' : 'none';
 }
 
 function initLightbox() {
@@ -221,7 +254,7 @@ function initLightbox() {
   });
 
   document.getElementById('lightbox-next').addEventListener('click', () => {
-    if (currentLightboxIndex < filteredPieces.length - 1) {
+    if (currentLightboxIndex < activeCollection.length - 1) {
       currentLightboxIndex++;
       updateLightbox();
     }
@@ -233,7 +266,7 @@ function initLightbox() {
       currentLightboxIndex--;
       updateLightbox();
     }
-    if (e.key === 'ArrowRight' && currentLightboxIndex < filteredPieces.length - 1) {
+    if (e.key === 'ArrowRight' && currentLightboxIndex < activeCollection.length - 1) {
       currentLightboxIndex++;
       updateLightbox();
     }
