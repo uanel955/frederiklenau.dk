@@ -34,6 +34,15 @@ const PIECES = [
     year: 2025,
     status: 'sold',
     images: ['images/can_you_decide.png']
+  },
+  {
+    id: 'this-place-seems-familiar',
+    title: 'this place seems familiar',
+    media: 'acryl on canvas',
+    dimensions: '30 x 50 cm',
+    year: 2025,
+    status: 'available',
+    images: ['images/IMG_7600.jpeg']
   }
 ];
 
