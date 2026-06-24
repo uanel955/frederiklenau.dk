@@ -277,7 +277,6 @@ function initLightbox() {
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initLightbox();
-  initCursor();
   preloadImages();
 });
 
@@ -287,30 +286,5 @@ function preloadImages() {
       const img = new Image();
       img.src = p.images[0];
     }
-  });
-}
-
-function initCursor() {
-  const dot = document.getElementById('cursor-dot');
-  let mouseX = 0, mouseY = 0;
-  let dotX = 0, dotY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animate() {
-    dotX += (mouseX - dotX) * 0.15;
-    dotY += (mouseY - dotY) * 0.15;
-    dot.style.left = dotX + 'px';
-    dot.style.top = dotY + 'px';
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  document.querySelectorAll('a, button, .home-word, .nav-link, .mobile-nav-link, .lightbox-prev, .lightbox-next, .lightbox-close').forEach(el => {
-    el.addEventListener('mouseenter', () => dot.classList.add('hover'));
-    el.addEventListener('mouseleave', () => dot.classList.remove('hover'));
   });
 }
