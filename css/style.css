@@ -39,19 +39,6 @@ body::before {
   background-size: 200px 200px;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image:
-    linear-gradient(var(--text-primary) 1px, transparent 1px),
-    linear-gradient(90deg, var(--text-primary) 1px, transparent 1px);
-  background-size: 80px 80px;
-}
-
 .continuum-line {
   position: fixed;
   top: 0;
