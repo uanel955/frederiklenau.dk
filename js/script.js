@@ -239,7 +239,7 @@ function updateLightbox() {
   const dimText = piece.dimensions ? `${piece.dimensions}` : '';
   const yearText = piece.year ? ` · ${piece.year}` : '';
   const enquireText = piece.status === 'available'
-    ? ` · <a href="mailto:frederik@lenau.dk?subject=Enquiry: ${encodeURIComponent(piece.title)}" class="meta-enquire">enquire</a>`
+    ? ` · <a href="mailto:frederik@lenau.dk?subject=Inquiry: ${encodeURIComponent(piece.title)}" class="meta-enquire">inquire</a>`
     : '';
   meta.innerHTML = `
     <div class="meta-title">${piece.title}</div>
