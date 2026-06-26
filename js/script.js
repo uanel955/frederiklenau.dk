@@ -71,7 +71,6 @@ const ARCHITECTURE = [
 
 let currentLightboxIndex = 0;
 let filteredPieces = PIECES;
-let crossfadeTimer = null;
 let activePage = null;
 let activeCollection = PIECES;
 
@@ -197,34 +196,18 @@ function closeLightbox() {
 function updateLightbox() {
   const piece = activeCollection[currentLightboxIndex];
   const img = document.getElementById('lightbox-img');
-  const imgBack = document.getElementById('lightbox-img-back');
   const meta = document.getElementById('lightbox-meta');
   const counter = document.getElementById('lightbox-counter');
   const spinner = document.getElementById('lightbox-spinner');
-
-  if (crossfadeTimer) {
-    clearTimeout(crossfadeTimer);
-    crossfadeTimer = null;
-  }
 
   spinner.classList.add('active');
 
   if (piece.images.length > 0) {
     const newImg = new Image();
     newImg.onload = () => {
-      imgBack.src = piece.images[0];
-      imgBack.alt = piece.title;
-      imgBack.style.opacity = '1';
-      img.style.opacity = '0';
+      img.src = piece.images[0];
+      img.alt = piece.title;
       spinner.classList.remove('active');
-
-      crossfadeTimer = setTimeout(() => {
-        img.src = imgBack.src;
-        img.alt = imgBack.alt;
-        img.style.opacity = '1';
-        imgBack.style.opacity = '0';
-        crossfadeTimer = null;
-      }, 500);
     };
     newImg.onerror = () => {
       spinner.classList.remove('active');
