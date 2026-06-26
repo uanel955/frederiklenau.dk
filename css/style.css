@@ -376,6 +376,16 @@ a:hover {
   font-weight: 700;
   letter-spacing: 0.04em;
 }
+.meta-enquire {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-muted);
+  transition: color 0.3s, border-color 0.3s;
+}
+.meta-enquire:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
 
 /* ── Mobile Toggle ─────────────────────────────────────── */
 .mobile-toggle {

@@ -238,9 +238,12 @@ function updateLightbox() {
   const mediaText = piece.media ? ` · ${piece.media}` : '';
   const dimText = piece.dimensions ? `${piece.dimensions}` : '';
   const yearText = piece.year ? ` · ${piece.year}` : '';
+  const enquireText = piece.status === 'available'
+    ? ` · <a href="mailto:frederik@lenau.dk?subject=Enquiry: ${encodeURIComponent(piece.title)}" class="meta-enquire">enquire</a>`
+    : '';
   meta.innerHTML = `
     <div class="meta-title">${piece.title}</div>
-    ${dimText}${mediaText}${yearText}${statusText}
+    ${dimText}${mediaText}${yearText}${statusText}${enquireText}
   `;
 
   document.getElementById('lightbox-prev').style.display = currentLightboxIndex > 0 ? 'block' : 'none';
