@@ -268,10 +268,6 @@ function initLightbox() {
 
 // ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  const line = document.createElement('div');
-  line.className = 'continuum-line';
-  document.body.appendChild(line);
-
   initNav();
   initLightbox();
   preloadImages();
