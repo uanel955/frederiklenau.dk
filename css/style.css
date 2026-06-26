@@ -495,25 +495,6 @@ a:hover {
   border-top: 1px solid rgba(0,0,0,0.06);
 }
 
-/* ── Accent Nav Links ──────────────────────────────────── */
-.nav-link--accent {
-  color: var(--accent);
-}
-.nav-link--accent::after {
-  background: var(--accent);
-}
-.mobile-nav-link--accent {
-  color: var(--accent);
-}
-
-/* ── Statement Page ────────────────────────────────────── */
-.text-page--centered .text-content {
-  text-align: center;
-}
-.text-page--centered .text-content p {
-  line-height: 2.2;
-}
-
 /* ── Responsive ────────────────────────────────────────── */
 .site-nav { display: none; }
 .mobile-toggle { display: block; }
