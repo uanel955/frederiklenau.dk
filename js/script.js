@@ -243,7 +243,8 @@ function updateLightbox() {
     : '';
   meta.innerHTML = `
     <div class="meta-title">${piece.title}</div>
-    ${dimText}${mediaText}${yearText}${statusText}${enquireText}
+    <div class="meta-separator"></div>
+    <div class="meta-details">${dimText}${mediaText}${yearText}${statusText}${enquireText}</div>
   `;
 
   document.getElementById('lightbox-prev').style.display = currentLightboxIndex > 0 ? 'block' : 'none';
@@ -284,6 +285,10 @@ function initLightbox() {
 
 // ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  const line = document.createElement('div');
+  line.className = 'continuum-line';
+  document.body.appendChild(line);
+
   initNav();
   initLightbox();
   preloadImages();
