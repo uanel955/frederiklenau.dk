@@ -506,3 +506,35 @@ a:hover {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Me Page Layout ─────────────────────────────────────── */
+.me-page {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.me-text p {
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.me-gallery {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.painting-thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  pointer-events: none; /* Disables clicking/hovering interactions */
+  user-select: none;
+  border-radius: 2px;
+}
